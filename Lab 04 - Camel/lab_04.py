@@ -1,4 +1,3 @@
-import arcade
 import random
 
 def main():
@@ -38,6 +37,7 @@ def main():
         #Win
         elif (traveled >= 200):
             print("You made it across the desert! You won!")
+            done = True
         else:
             print("A. Drink from your canteen.")
             print("B. Ahead moderate speed.")
@@ -54,7 +54,7 @@ def main():
                     thirst = 0
                 else: print("Your canteen is empty.")
 
-            #Moving moderate speed
+            #Moving moderate speed, random roll for oasis after move
             elif (prompt.upper() == "B"):
                 natmove = random.randrange(7, 15)
                 modmove = random.randrange(5, 13)
@@ -63,8 +63,13 @@ def main():
                 traveled = modmove + traveled
                 print("You traveled ", modmove, " miles.")
                 natdistance = natmove + natdistance
+                if random.randrange(20) == 0:
+                    print("You found an oasis!")
+                    tired = 0
+                    thirst = 0
+                    drinks = 3
 
-            #Moving full speed
+            #Moving full speed, random roll for oasis after move
             elif (prompt.upper() == "C"):
                 natmove = random.randrange(7, 15)
                 fullmove = random.randrange(10, 21)
@@ -74,6 +79,11 @@ def main():
                 traveled = fullmove + traveled
                 print("You traveled ", fullmove, " miles.")
                 natdistance = natmove + natdistance
+                if random.randrange(20) == 0:
+                    print("You found an oasis!")
+                    tired = 0
+                    thirst = 0
+                    drinks = 3
 
             #Resting, moving natives and resetting tiredness
             elif (prompt.upper() == "D"):
