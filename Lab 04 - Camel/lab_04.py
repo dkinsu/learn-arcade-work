@@ -1,11 +1,13 @@
 import random
 
+
 def main():
     drinks = 3
     thirst = 0
     tired = 0
     traveled = 0
     natdistance = -20
+
     # Instructions
     print("Welcome to Camel!")
     print("You have stolen a camel to make your way across the great Mobi desert.")
@@ -52,7 +54,8 @@ def main():
                 if drinks > 0:
                     drinks -= 1
                     thirst = 0
-                else: print("Your canteen is empty.")
+                else:
+                    print("Your canteen is empty.")
 
             # Moving moderate speed, random roll for oasis after move
             elif (prompt.upper() == "B"):
@@ -94,9 +97,7 @@ def main():
 
             # Status Check
             elif (prompt.upper() == "E"):
-                if(natdistance <= 0):
-                    nattraveled = traveled + natdistance
-                else: nattraveled = traveled - natdistance
+                nattraveled = traveled - natdistance
                 print("You have traveled ", traveled, " miles.")
                 print("Your canteen has ", drinks, " drinks remaining.")
                 print("The natives are ", nattraveled, " miles behind you.")
@@ -117,6 +118,7 @@ def main():
                 if ((traveled - natdistance) < 15):
                     print("The natives are getting close!")
             elif ((natdistance <= 0) and (traveled - natdistance) < 15):
-                print ("The natives are getting close!")
+                print("The natives are getting close!")
+
 
 main()
