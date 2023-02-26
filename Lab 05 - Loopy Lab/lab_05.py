@@ -66,7 +66,7 @@ def draw_section_4():
 def draw_section_5():
     # Do NOT use 'if' statements to complete 5-8. Manipulate the loops instead.
     for column in range(30):
-        for row in range(column): # decreasing range of row with range of column makes a triangle
+        for row in range(column):  # decreasing range of row with range of column makes a triangle
             x = 5 + column * 10  # Instead of zero, calculate the proper x location using 'column'
             y = 305 + row * 10  # Instead of zero, calculate the proper y location using 'row'
             arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
