@@ -73,8 +73,8 @@ def draw_section_5():
 
 
 def draw_section_6():
-    for row in range(30):
-        for column in range(30 - row):  # decreasing range of row with range of column makes a triangle
+    for column in range(30):
+        for row in range(30 - column):  # triangle flipped on x-axis with subtraction
             x = 305 + column * 10  # Instead of zero, calculate the proper x location using 'column'
             y = 305 + row * 10  # Instead of zero, calculate the proper y location using 'row'
             arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
@@ -82,7 +82,7 @@ def draw_section_6():
 
 def draw_section_7():
     for row in range(30):
-        for column in range(row):
+        for column in range(row + 1):  # triangle flipped on y-axis by using row as base instead of column
             x = 605 + column * 10  # Instead of zero, calculate the proper x location using 'column'
             y = 305 + row * 10  # Instead of zero, calculate the proper y location using 'row'
             arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
