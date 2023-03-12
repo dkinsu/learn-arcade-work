@@ -33,8 +33,8 @@ class Cloud:
 class BigBall:
     def __init__(self, position_x, position_y, change_x, change_y, radius1, radius2, radius3, color1, color2, color3):
 
-        self.errorsound = arcade.load_sound("arcade_resources_sounds_hurt2.wav")
-        self.errorsound_player = None
+        self.error_sound = arcade.load_sound("arcade_resources_sounds_hurt2.wav")
+        self.error_sound_player = None
         # Take the parameters of the init function above,
         # and create instance variables out of them.
         self.position_x = position_x
@@ -61,23 +61,23 @@ class BigBall:
         # Edge of screen check
         if self.position_x < self.radius1:
             # Playing error sound on attempt to cross edge
-            if not self.errorsound_player or not self.errorsound_player.playing:
-                self.errorsound_player = arcade.play_sound(self.errorsound)
+            if not self.error_sound_player or not self.error_sound_player.playing:
+                self.error_sound_player = arcade.play_sound(self.error_sound)
             self.position_x = self.radius1
 
         if self.position_x > SCREEN_WIDTH - self.radius1:
-            if not self.errorsound_player or not self.errorsound_player.playing:
-                self.errorsound_player = arcade.play_sound(self.errorsound)
+            if not self.error_sound_player or not self.error_sound_player.playing:
+                self.error_sound_player = arcade.play_sound(self.error_sound)
             self.position_x = SCREEN_WIDTH - self.radius1
 
         if self.position_y < self.radius1:
-            if not self.errorsound_player or not self.errorsound_player.playing:
-                self.errorsound_player = arcade.play_sound(self.errorsound)
+            if not self.error_sound_player or not self.error_sound_player.playing:
+                self.error_sound_player = arcade.play_sound(self.error_sound)
             self.position_y = self.radius1
 
         if self.position_y > SCREEN_HEIGHT - self.radius1:
-            if not self.errorsound_player or not self.errorsound_player.playing:
-                self.errorsound_player = arcade.play_sound(self.errorsound)
+            if not self.error_sound_player or not self.error_sound_player.playing:
+                self.error_sound_player = arcade.play_sound(self.error_sound)
             self.position_y = SCREEN_HEIGHT - self.radius1
 
 
