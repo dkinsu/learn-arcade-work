@@ -21,7 +21,7 @@ class Cloud:
         self.color = color
 
     def draw_cloud(self):
-    # drawing a cloud, made with four ellipses
+        # drawing a cloud, made with four ellipses
         arcade.draw_ellipse_filled(self.position_x - 30, self.position_y, self.width, self.height, self.color)
         arcade.draw_ellipse_filled(self.position_x, 15 + self.position_y, self.width, self.height, self.color)
         arcade.draw_ellipse_filled(30 + self.position_x, self.position_y, self.width, self.height, self.color)
@@ -113,6 +113,10 @@ class MyGame(arcade.Window):
         self.cloud.position_x = x
         self.cloud.position_y = y
 
+    def on_mouse_click(self, click):
+            if not self.vine_boom_player or not self.vine_boom_player.playing:
+                self.vine_boom_player = arcade.play_sound(self.vine_boom)
+
     def update(self, delta_time):
         self.ball.update()
 
@@ -133,6 +137,7 @@ class MyGame(arcade.Window):
             self.ball.change_x = 0
         elif key == arcade.key.UP or key == arcade.key.DOWN:
             self.ball.change_y = 0
+
 
 def main():
     window = MyGame()
