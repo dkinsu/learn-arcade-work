@@ -51,6 +51,18 @@ class Big_Ball:
         # Move the ball
         self.position_y += self.change_y
         self.position_x += self.change_x
+        # See if the ball hit the edge of the screen. If so, change direction
+        if self.position_x < self.radius1:
+            self.position_x = self.radius1
+
+        if self.position_x > SCREEN_WIDTH - self.radius1:
+            self.position_x = SCREEN_WIDTH - self.radius1
+
+        if self.position_y < self.radius1:
+            self.position_y = self.radius1
+
+        if self.position_y > SCREEN_HEIGHT - self.radius1:
+            self.position_y = SCREEN_HEIGHT - self.radius1
 
 
 class MyGame(arcade.Window):
@@ -79,18 +91,6 @@ class MyGame(arcade.Window):
         self.cloud.position_x = x
         self.cloud.position_y = y
 
-        # See if the ball hit the edge of the screen. If so, change direction
-        if self.position_x < self.radius1:
-            self.position_x = self.radius1
-
-        if self.position_x > SCREEN_WIDTH - self.radius1:
-            self.position_x = SCREEN_WIDTH - self.radius1
-
-        if self.position_y < self.radius1:
-            self.position_y = self.radius1
-
-        if self.position_y > SCREEN_HEIGHT - self.radius1:
-            self.position_y = SCREEN_HEIGHT - self.radius1
 
     def update(self, delta_time):
         self.ball.update()
