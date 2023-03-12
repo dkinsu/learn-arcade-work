@@ -7,8 +7,11 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 # Movement speed for key input
 MOVEMENT_SPEED = 4
+# ------------------
 
 # Using cloud function from lab 3
+
+
 class Cloud:
     def __init__(self, position_x, position_y, width, height, color):
         self.position_x = position_x
@@ -25,9 +28,13 @@ class Cloud:
         arcade.draw_ellipse_filled(self.position_x, self.position_y - 15, self.width, self.height, self.color)
 
 # taking ball class from example and elaborating
-class Big_Ball:
+
+
+class BigBall:
     def __init__(self, position_x, position_y, change_x, change_y, radius1, radius2, radius3, color1, color2, color3):
 
+        self.errorsound = arcade.load_sound("arcade_resources_sounds_hurt2.wav")
+        self.errorsound_player = None
         # Take the parameters of the init function above,
         # and create instance variables out of them.
         self.position_x = position_x
@@ -48,20 +55,29 @@ class Big_Ball:
         arcade.draw_circle_filled(self.position_x, self.position_y, self.radius3, self.color3)
 
     def update(self):
-        # Move the ball
+        # Ball Movement
         self.position_y += self.change_y
         self.position_x += self.change_x
-        # See if the ball hit the edge of the screen. If so, change direction
+        # Edge of screen check
         if self.position_x < self.radius1:
+            # Playing error sound on attempt to cross edge
+            if not self.errorsound_player or not self.errorsound_player.playing:
+                self.errorsound_player = arcade.play_sound(self.errorsound)
             self.position_x = self.radius1
 
         if self.position_x > SCREEN_WIDTH - self.radius1:
+            if not self.errorsound_player or not self.errorsound_player.playing:
+                self.errorsound_player = arcade.play_sound(self.errorsound)
             self.position_x = SCREEN_WIDTH - self.radius1
 
         if self.position_y < self.radius1:
+            if not self.errorsound_player or not self.errorsound_player.playing:
+                self.errorsound_player = arcade.play_sound(self.errorsound)
             self.position_y = self.radius1
 
         if self.position_y > SCREEN_HEIGHT - self.radius1:
+            if not self.errorsound_player or not self.errorsound_player.playing:
+                self.errorsound_player = arcade.play_sound(self.errorsound)
             self.position_y = SCREEN_HEIGHT - self.radius1
 
 
@@ -73,12 +89,18 @@ class MyGame(arcade.Window):
 
         # Call the parent class initializer
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Lab 7 - User Control")
+
+        self.vine_boom = arcade.load_sound("vine-boom.wav")
+        self.vine_boom_player = None
+
+        # setting mouse invisible
         self.set_mouse_visible(False)
+
         # initializing cloud to be drawn
         self.cloud = Cloud(400, 300, 120, 45, arcade.color.WHITE)
 
         # initializing ball to be drawn
-        self.ball = Big_Ball(200, 300, 0, 0, 40, 30, 20, arcade.color.BLUE, arcade.color.RED, arcade.color.GREEN)
+        self.ball = BigBall(200, 300, 0, 0, 40, 30, 20, arcade.color.BLUE, arcade.color.RED, arcade.color.GREEN)
 
     def on_draw(self):
         arcade.start_render()
@@ -90,7 +112,6 @@ class MyGame(arcade.Window):
         Happens approximately 60 times per second."""
         self.cloud.position_x = x
         self.cloud.position_y = y
-
 
     def update(self, delta_time):
         self.ball.update()
