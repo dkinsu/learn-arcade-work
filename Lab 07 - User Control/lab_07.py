@@ -113,8 +113,11 @@ class MyGame(arcade.Window):
         self.cloud.position_x = x
         self.cloud.position_y = y
 
-    def on_mouse_click(self, click):
-        if click == arcade.MOUSE_BUTTON_LEFT:
+    def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            if not self.vine_boom_player or not self.vine_boom_player.playing:
+                self.vine_boom_player = arcade.play_sound(self.vine_boom)
+        elif button == arcade.MOUSE_BUTTON_RIGHT:
             if not self.vine_boom_player or not self.vine_boom_player.playing:
                 self.vine_boom_player = arcade.play_sound(self.vine_boom)
 
@@ -142,7 +145,7 @@ class MyGame(arcade.Window):
 
 def main():
     window = MyGame()
-    arcade.run()
+    window.run()
 
 
 main()
