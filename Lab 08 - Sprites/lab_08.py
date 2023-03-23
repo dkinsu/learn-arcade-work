@@ -7,7 +7,7 @@ import arcade
 SPRITE_SCALING_PLAYER = 3.0
 SPRITE_SCALING_RING = 1.5
 SPRITE_SCALING_FIRE = 1.5
-RING_COUNT = 1
+RING_COUNT = 50
 FIRE_COUNT = 50
 
 SCREEN_WIDTH = 800
@@ -40,13 +40,19 @@ class MyGame(arcade.Window):
         self.player_list = None
         self.ring_list = None
         self.fire_list = None
+
+        # Game over variable
         self.game_over = False
+
         # Set up the player info
         self.player_sprite = None
         self.score = 0
 
         # Don't show the mouse cursor
         self.set_mouse_visible(False)
+
+        self.vine_boom = arcade.load_sound("vine-boom.wav")
+        self.ring_sound = arcade.load_sound("arcade_resources_sounds_hurt2.wav")
 
         arcade.set_background_color(arcade.color.BLACK)
 
@@ -68,7 +74,7 @@ class MyGame(arcade.Window):
         self.player_sprite.center_y = 50
         self.player_list.append(self.player_sprite)
 
-        # Create the coins
+        # Create the rings
         for i in range(RING_COUNT):
 
             # Create the ring instance
@@ -129,13 +135,17 @@ class MyGame(arcade.Window):
                                                               self.fire_list)
 
         # Loop through each colliding sprite, remove it, and add to the score.
+        # Playing sound on collision as well
         for ring in rings_hit_lists_hit_list:
             ring.remove_from_sprite_lists()
+            arcade.play_sound(self.ring_sound, 0.6)
             self.score += 1
 
         # Reducing score for bad sprites
+        # Playing sound on collision as well
         for fire in fire_hit_lists_hit_list:
             fire.remove_from_sprite_lists()
+            arcade.play_sound(self.vine_boom, 0.2)
             self.score -= 1
         if len(self.ring_list) == 0:
             self.game_over = True
