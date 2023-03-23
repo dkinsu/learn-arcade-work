@@ -5,14 +5,28 @@ import arcade
 
 # --- Constants ---
 SPRITE_SCALING_PLAYER = 3.0
-SPRITE_SCALING_RING = 1.0
-SPRITE_SCALING_FIRE = 1.0
+SPRITE_SCALING_RING = 1.5
+SPRITE_SCALING_FIRE = 1.5
 RING_COUNT = 50
 FIRE_COUNT = 50
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
+# Initializing class for
+class Ring(arcade.Sprite):
+    def update(self):
+        # Downward movement
+        self.center_y -= 1
+        if self.top < 0:
+            self.bottom = SCREEN_HEIGHT
+
+class Fire(arcade.Sprite):
+    def update(self):
+        # Left movement
+        self.center_x -= 1
+        if self.right < 0:
+            self.left = SCREEN_WIDTH
 
 class MyGame(arcade.Window):
     """ Our custom Window Class"""
@@ -59,7 +73,7 @@ class MyGame(arcade.Window):
 
             # Create the ring instance
             # ring image from kenney.nl micro-roguelike
-            ring = arcade.Sprite("tile_0089.png", SPRITE_SCALING_RING)
+            ring = Ring("tile_0089.png", SPRITE_SCALING_RING)
 
             # Position the ring
             ring.center_x = random.randrange(SCREEN_WIDTH)
@@ -72,7 +86,7 @@ class MyGame(arcade.Window):
 
             # Creating fire instance
             # fire image from kenney.nl micro-roguelike
-            fire = arcade.Sprite("tile_0136.png", SPRITE_SCALING_FIRE)
+            fire = Fire("tile_0136.png", SPRITE_SCALING_FIRE)
 
             # Positioning fire
             fire.center_x = random.randrange(SCREEN_WIDTH)
@@ -121,7 +135,6 @@ class MyGame(arcade.Window):
         for fire in fire_hit_lists_hit_list:
             fire.remove_from_sprite_lists()
             self.score -= 1
-
 
 def main():
     """ Main method """
