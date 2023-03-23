@@ -5,8 +5,10 @@ import arcade
 
 # --- Constants ---
 SPRITE_SCALING_PLAYER = 3.0
-SPRITE_SCALING_COIN = 1.0
+SPRITE_SCALING_RING = 1.0
+SPRITE_SCALING_FIRE = 1.0
 RING_COUNT = 50
+FIRE_COUNT = 50
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -40,6 +42,7 @@ class MyGame(arcade.Window):
         # Sprite lists
         self.player_list = arcade.SpriteList()
         self.ring_list = arcade.SpriteList()
+        self.fire_list = arcade.SpriteList()
 
         # Score
         self.score = 0
@@ -54,21 +57,34 @@ class MyGame(arcade.Window):
         # Create the coins
         for i in range(RING_COUNT):
 
-            # Create the coin instance
+            # Create the ring instance
             # ring image from kenney.nl micro-roguelike
-            ring = arcade.Sprite("tile_0089.png", SPRITE_SCALING_COIN)
+            ring = arcade.Sprite("tile_0089.png", SPRITE_SCALING_RING)
 
-            # Position the coin
+            # Position the ring
             ring.center_x = random.randrange(SCREEN_WIDTH)
             ring.center_y = random.randrange(SCREEN_HEIGHT)
 
-            # Add the coin to the lists
+            # Add the ring to the lists
             self.ring_list.append(ring)
+
+        for i in range(FIRE_COUNT):
+
+            # Creating fire instance
+            # fire image from kenney.nl micro-roguelike
+            fire = arcade.Sprite("tile_0136.png", SPRITE_SCALING_FIRE)
+
+            # Positioning fire
+            fire.center_x = random.randrange(SCREEN_WIDTH)
+            fire.center_y = random.randrange(SCREEN_HEIGHT)
+
+            self.fire_list.append(fire)
 
     def on_draw(self):
         """ Draw everything """
         arcade.start_render()
         self.ring_list.draw()
+        self.fire_list.draw()
         self.player_list.draw()
 
         # Put the text on the screen.
@@ -88,15 +104,23 @@ class MyGame(arcade.Window):
         # Call update on all sprites (The sprites don't do much in this
         # example though.)
         self.ring_list.update()
+        self.fire_list.update()
 
         # Generate a list of all sprites that collided with the player.
         rings_hit_lists_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                               self.ring_list)
+        fire_hit_lists_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
+                                                              self.fire_list)
 
         # Loop through each colliding sprite, remove it, and add to the score.
         for ring in rings_hit_lists_hit_list:
             ring.remove_from_sprite_lists()
             self.score += 1
+
+        # Reducing score for bad sprites
+        for fire in fire_hit_lists_hit_list:
+            fire.remove_from_sprite_lists()
+            self.score -= 1
 
 
 def main():
