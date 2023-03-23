@@ -7,7 +7,7 @@ import arcade
 SPRITE_SCALING_PLAYER = 3.0
 SPRITE_SCALING_RING = 1.5
 SPRITE_SCALING_FIRE = 1.5
-RING_COUNT = 50
+RING_COUNT = 1
 FIRE_COUNT = 50
 
 SCREEN_WIDTH = 800
@@ -40,7 +40,7 @@ class MyGame(arcade.Window):
         self.player_list = None
         self.ring_list = None
         self.fire_list = None
-
+        self.game_over = False
         # Set up the player info
         self.player_sprite = None
         self.score = 0
@@ -104,21 +104,23 @@ class MyGame(arcade.Window):
         # Put the text on the screen.
         output = f"Score: {self.score}"
         arcade.draw_text(output, 10, 20, arcade.color.WHITE, 14)
+        if self.game_over == True:
+            arcade.draw_text("Game Over", 240, 300, arcade.color.WHITE, 50)
 
     def on_mouse_motion(self, x, y, dx, dy):
         """ Handle Mouse Motion """
 
         # Move the center of the player sprite to match the mouse x, y
-        self.player_sprite.center_x = x
-        self.player_sprite.center_y = y
+        if not self.game_over:
+            self.player_sprite.center_x = x
+            self.player_sprite.center_y = y
 
     def update(self, delta_time):
         """ Movement and game logic """
-
-        # Call update on all sprites (The sprites don't do much in this
-        # example though.)
-        self.ring_list.update()
-        self.fire_list.update()
+        if not self.game_over:
+            # Call update on all sprites - movement
+            self.ring_list.update()
+            self.fire_list.update()
 
         # Generate a list of all sprites that collided with the player.
         rings_hit_lists_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
@@ -135,7 +137,8 @@ class MyGame(arcade.Window):
         for fire in fire_hit_lists_hit_list:
             fire.remove_from_sprite_lists()
             self.score -= 1
-
+        if len(self.ring_list) == 0:
+            self.game_over = True
 def main():
     """ Main method """
     window = MyGame()
