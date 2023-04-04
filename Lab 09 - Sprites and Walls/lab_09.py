@@ -44,7 +44,7 @@ class MyGame(arcade.Window):
         self.wall_list = None
         self.ring_list = None
         self.score = 0
-        # Setting up sound
+        # Setting up sound, vine boom noise
         self.vine_boom = arcade.load_sound("vine-boom.wav")
 
         # Set up the player
