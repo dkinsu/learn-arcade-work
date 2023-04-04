@@ -40,6 +40,7 @@ class MyGame(arcade.Window):
         # Sprite lists
         self.player_list = None
         self.wall_list = None
+        self.ring_list = None
 
         # Set up the player
         self.player_sprite = None
@@ -131,6 +132,22 @@ class MyGame(arcade.Window):
 
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
+
+        # while not ring_placed_successfully:
+        # ring.center_x = random.randrange(1200)
+        # ring.center_y = random.randrange(1200)
+        # wall_hit_list = arcade.check_for_collision_with_list(coin, self.wall_list)
+
+        # See if the ring is hitting another ring
+        # ring_hit_list = arcade.check_for_collision_with_list(ring, self.ring_list)
+
+        # if len(wall_hit_list) == 0 and len(ring_hit_list) == 0:
+            # It is!
+            # coin_placed_successfully = True
+
+        # Add the coin to the lists
+
+    # self.coin_list.append(coin)
 
         # Set the background color
         arcade.set_background_color(arcade.color.BLACK)
