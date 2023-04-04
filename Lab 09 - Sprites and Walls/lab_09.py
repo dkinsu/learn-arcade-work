@@ -12,6 +12,8 @@ import arcade
 from pyglet.math import Vec2
 
 SPRITE_SCALING = 8
+RING_COUNT = 20
+SPRITE_SCALING_RING = 1.5
 
 DEFAULT_SCREEN_WIDTH = 800
 DEFAULT_SCREEN_HEIGHT = 600
@@ -41,6 +43,9 @@ class MyGame(arcade.Window):
         self.player_list = None
         self.wall_list = None
         self.ring_list = None
+        self.score = 0
+        # Setting up sound
+        self.vine_boom = arcade.load_sound("vine-boom.wav")
 
         # Set up the player
         self.player_sprite = None
@@ -65,6 +70,7 @@ class MyGame(arcade.Window):
         # Sprite lists
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList()
+        self.ring_list = arcade.SpriteList()
 
         # Set up the player - from Kenney.nl micro roguelike
         self.player_sprite = arcade.Sprite("tile_0004.png",
@@ -73,7 +79,11 @@ class MyGame(arcade.Window):
         self.player_sprite.center_y = 512
         self.player_list.append(self.player_sprite)
 
+        # Kenney.nl micro roguelike ring sprite
+        self.ring = arcade.Sprite("tile_0089.png", SPRITE_SCALING_RING)
+
         # -- Set up border rows of walls - top and bottom
+
         # All sprites used are from Kenney.nl Micro roguelike
         for x in range(0, 1200, 64):
             x_wall = arcade.Sprite("tile_0001.png", SPRITE_SCALING)
@@ -96,6 +106,7 @@ class MyGame(arcade.Window):
             r_wall.center_x = 1200
             r_wall.center_y = y
             self.wall_list.append(r_wall)
+
         # Border walls set up: setting up maze walls
         for x in range(64, 464, 64):
             maze_wall_1 = arcade.Sprite("tile_0151.png", SPRITE_SCALING)
@@ -133,21 +144,26 @@ class MyGame(arcade.Window):
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
 
-        # while not ring_placed_successfully:
-        # ring.center_x = random.randrange(1200)
-        # ring.center_y = random.randrange(1200)
-        # wall_hit_list = arcade.check_for_collision_with_list(coin, self.wall_list)
+        ring_placed_successfully = False
 
-        # See if the ring is hitting another ring
-        # ring_hit_list = arcade.check_for_collision_with_list(ring, self.ring_list)
+        while not ring_placed_successfully:
+            for i in range(RING_COUNT):
+                self.ring.center_x = random.randrange(1200)
+                self.ring.center_y = random.randrange(1200)
 
-        # if len(wall_hit_list) == 0 and len(ring_hit_list) == 0:
-            # It is!
-            # coin_placed_successfully = True
+                # Check for wall collision
+                wall_hit_list = arcade.check_for_collision_with_list(self.ring, self.wall_list)
 
-        # Add the coin to the lists
+                # See if the ring is hitting another ring
+                ring_hit_list = arcade.check_for_collision_with_list(self.ring, self.ring_list)
 
-    # self.coin_list.append(coin)
+                if len(wall_hit_list) == 0 and len(ring_hit_list) == 0:
+                    # It is!
+                    ring_placed_successfully = True
+
+        # Add the ring to the lists
+
+        self.ring_list.append(self.ring)
 
         # Set the background color
         arcade.set_background_color(arcade.color.BLACK)
@@ -164,6 +180,7 @@ class MyGame(arcade.Window):
         # Draw all the sprites.
         self.wall_list.draw()
         self.player_list.draw()
+        self.ring_list.draw()
 
         # Select the (unscrolled) camera for our GUI
         self.camera_gui.use()
@@ -217,6 +234,13 @@ class MyGame(arcade.Window):
             self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
         elif self.right_pressed and not self.left_pressed:
             self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
+
+        rings_hit_lists_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
+                                                                        self.ring_list)
+        for ring in rings_hit_lists_hit_list:
+            ring.remove_from_sprite_lists()
+            arcade.play_sound(self.vine_boom, 0.6)
+            self.score += 1
 
         # Call update on all sprites (The sprites don't do much in this
         # example though.)
