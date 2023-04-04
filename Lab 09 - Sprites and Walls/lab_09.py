@@ -67,7 +67,7 @@ class MyGame(arcade.Window):
 
         # Set up the player - from Kenney.nl micro roguelike
         self.player_sprite = arcade.Sprite("tile_0004.png",
-                                           scale=10)
+                                           scale=8)
         self.player_sprite.center_x = 256
         self.player_sprite.center_y = 512
         self.player_list.append(self.player_sprite)
@@ -96,6 +96,16 @@ class MyGame(arcade.Window):
             r_wall.center_y = y
             self.wall_list.append(r_wall)
         # Border walls set up: need maze now
+        for x in range(64, 464, 64):
+            maze_wall_1 = arcade.Sprite("tile_0151.png", SPRITE_SCALING)
+            maze_wall_1.center_x = x
+            maze_wall_1.center_y = 400
+            self.wall_list.append(maze_wall_1)
+        for x in range(628, 1170, 64):
+            maze_wall_2 = arcade.Sprite("tile_0151.png", SPRITE_SCALING)
+            maze_wall_2.center_x = x
+            maze_wall_2.center_y = 400
+            self.wall_list.append(maze_wall_2)
 
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
