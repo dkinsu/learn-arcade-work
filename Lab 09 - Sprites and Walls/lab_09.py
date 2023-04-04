@@ -95,7 +95,7 @@ class MyGame(arcade.Window):
             r_wall.center_x = 1200
             r_wall.center_y = y
             self.wall_list.append(r_wall)
-        # Border walls set up: need maze now
+        # Border walls set up: setting up maze walls
         for x in range(64, 464, 64):
             maze_wall_1 = arcade.Sprite("tile_0151.png", SPRITE_SCALING)
             maze_wall_1.center_x = x
@@ -106,6 +106,28 @@ class MyGame(arcade.Window):
             maze_wall_2.center_x = x
             maze_wall_2.center_y = 400
             self.wall_list.append(maze_wall_2)
+        for y in range(400, 1100, 64):
+            maze_wall_3 = arcade.Sprite("tile_0151.png", SPRITE_SCALING)
+            maze_wall_3.center_x = 200
+            maze_wall_3.center_y = y
+            self.wall_list.append(maze_wall_3)
+        for x in range(428, 1160, 64):
+            maze_wall_4 = arcade.Sprite("tile_0151.png", SPRITE_SCALING)
+            maze_wall_4.center_x = x
+            maze_wall_4.center_y = 700
+            self.wall_list.append(maze_wall_4)
+        for y in range(628, 1100, 64):
+            maze_wall_5 = arcade.Sprite("tile_0151.png", SPRITE_SCALING)
+            maze_wall_5.center_x = 800
+            maze_wall_5.center_y = y
+            self.wall_list.append(maze_wall_5)
+        # adding wall made by list, formation of boxes
+        box_list = [[1050, 840], [1050, 776], [986, 840], [986, 776]]
+        for box in box_list:
+            box_wall = arcade.Sprite("tile_0151.png", SPRITE_SCALING)
+            box_wall.center_x = box[0]
+            box_wall.center_y = box[1]
+            self.wall_list.append(box_wall)
 
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
