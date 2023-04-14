@@ -30,7 +30,6 @@ for word in word_list:
     while i < len(dictionary_list) and not found:
         if word.upper() == dictionary_list[i]:
             found = True
-        else: print("Line ", line_number, "Possible misspelling: ", word)
         i += 1
 print("--- Binary Search ---")
 # Binary Search
