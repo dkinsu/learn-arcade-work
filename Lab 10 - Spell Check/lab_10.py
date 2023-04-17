@@ -17,6 +17,15 @@ alice = open("AliceInWonderLand200.txt")
 for line in alice:
     word_list = split_line(line)
     line_number += 1
+    for word in word_list:
+        found = False
+        i = 0
+        while i < len(dictionary_list) and not found:
+            if word.upper() == dictionary_list[i]:
+                found = True
+            i += 1
+        if not found:
+            print(word, "not found")
 alice.close()
 
 # read line
@@ -24,13 +33,13 @@ alice.close()
 # for word in word list
 # Linear search
 # while not at end of dictionary and not found: search
-found = False
+"""found = False
 i = 0
 for word in word_list:
     while i < len(dictionary_list) and not found:
         if word.upper() == dictionary_list[i]:
             found = True
-        i += 1
+        i += 1"""
 print("--- Binary Search ---")
 # Binary Search
 
