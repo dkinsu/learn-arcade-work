@@ -20,12 +20,12 @@ for line in alice:
     for word in word_list:
         found = False
         i = 0
-        while i < len(dictionary_list) and not found:
+        while i < len(dictionary_list) and not found:  # If not at end of dictionary list, keep searching
             if word.upper() == dictionary_list[i]:
                 found = True
             i += 1
         if not found:
-            print(word, "not found")
+            print(word, "at line number", line_number, "not found")
 alice.close()
 
 # read line
@@ -42,4 +42,13 @@ for word in word_list:
         i += 1"""
 print("--- Binary Search ---")
 # Binary Search
+line_number = 0
+alice = open("AliceInWonderLand200.txt")
+for line in alice:
+    word_list = split_line(line)
+    line_number += 1
+    for word in word_list:
+        lower_bound = 0
+        upper_bound = len(dictionary_list)
+        middle_bound = (lower_bound + upper_bound // 2)
 
