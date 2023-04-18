@@ -35,18 +35,19 @@ alice = open("AliceInWonderLand200.txt")
 for line in alice:
     word_list = split_line(line)
     line_number += 1
+
     for word in word_list:
-        found = False
-        i = 0
         lower_bound = 0
-        upper_bound = len(dictionary_list)
-        middle_bound = (lower_bound + upper_bound // 2)
+        upper_bound = len(dictionary_list) - 1
+        found = False
         while lower_bound <= upper_bound and not found:
-            if word.upper() == dictionary_list[i]:
+            middle_bound = (lower_bound + upper_bound) // 2
+            if dictionary_list[middle_bound] < word.upper():
+                lower_bound = middle_bound + 1
+            elif dictionary_list[middle_bound] > word.upper():
+                upper_bound = middle_bound - 1
+            else:
                 found = True
-            lower_bound = middle_bound + 1
-            upper_bound = middle_bound - 1
-            i += 1
         if not found:
             print(word, "at line number", line_number, "not found")
 alice.close()
