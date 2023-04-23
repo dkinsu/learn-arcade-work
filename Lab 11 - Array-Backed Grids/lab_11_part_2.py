@@ -78,8 +78,11 @@ class MyGame(arcade.Window):
         column = x // (WIDTH + MARGIN)
         row = y // (HEIGHT + MARGIN)
 
-        # Initializing variable for cell counting loop
+        # Initializing variable for cell counting loops
         selected = 0
+        row_selected = 0
+        column_selected = 0
+        continuous_count = 0
 
         print(f"Click coordinates: ({x}, {y}). Grid coordinates: ({row}, {column})")
 
