@@ -88,9 +88,11 @@ class MyGame(arcade.Window):
             if self.grid[row][column] == 0:
                 self.grid[row][column] = 1
                 self.grid[row - 1][column] = 1
-                self.grid[row + 1][column] = 1
+                if (row + 1) < ROW_COUNT:
+                    self.grid[row + 1][column] = 1
                 self.grid[row][column - 1] = 1
-                self.grid[row][column + 1] = 1
+                if (column + 1) < COLUMN_COUNT:
+                    self.grid[row][column + 1] = 1
             else:
                 self.grid[row][column] = 0
                 self.grid[row - 1][column] = 0
