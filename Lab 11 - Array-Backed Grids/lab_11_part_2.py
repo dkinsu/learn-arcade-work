@@ -97,11 +97,11 @@ class MyGame(arcade.Window):
                 self.grid[row][column] = 0
 
         for i in row:
-            print('In row', i,'there are ', end ='')
+            # print('In row', i,'there are ', row_selected, 'cells selected', end ='')
             for j in column:
                 if self.grid[i][j] == 1:
                     selected += 1
-        print(selected,'columns')
+        # print(selected,'columns')
         print("Total of ", selected, "cells selected")
         selected = 0
 
