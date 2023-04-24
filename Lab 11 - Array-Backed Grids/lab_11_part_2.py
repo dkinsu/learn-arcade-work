@@ -33,7 +33,7 @@ class MyGame(arcade.Window):
         Set up the application.
         """
         super().__init__(width, height)
-        # Create a 2 dimensional array. A two dimensional
+        # Create a 2 dimensional array. A two-dimensional
         # array is simply a list of lists.
         self.grid = []
         for row in range(ROW_COUNT):
@@ -97,11 +97,11 @@ class MyGame(arcade.Window):
                 self.grid[row][column] = 0
 
         for i in row:
-            # print('In row', i,'there are ', end ='')
+            print('In row', i,'there are ', end ='')
             for j in column:
                 if self.grid[i][j] == 1:
                     selected += 1
-        # print(selected,'columns')
+        print(selected,'columns')
         print("Total of ", selected, "cells selected")
         selected = 0
 
