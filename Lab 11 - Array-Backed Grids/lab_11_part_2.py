@@ -95,7 +95,7 @@ class MyGame(arcade.Window):
                 self.grid[row][column] = 1
             else:
                 self.grid[row][column] = 0
-        for row in range(ROW_COUNT):
+        for i in range(ROW_COUNT):
             if self.grid[row][column] == 1:
                 selected += 1
                 print("Total of ", selected, "cells selected")
