@@ -86,10 +86,14 @@ class MyGame(arcade.Window):
 
             # Flip the location between 1 and 0.
             self.grid[row][column] = 1 - self.grid[row][column]
-            self.grid[row - 1][column] = 1 - self.grid[row - 1][column]
-            self.grid[row + 1][column] = 1 - self.grid[row + 1][column]
-            self.grid[row][column - 1] = 1 - self.grid[row][column - 1]
-            self.grid[row][column + 1] = 1 - self.grid[row][column + 1]
+            if row - 1 > 0:
+                self.grid[row - 1][column] = 1 - self.grid[row - 1][column]
+            if row + 1 < ROW_COUNT:
+                self.grid[row + 1][column] = 1 - self.grid[row + 1][column]
+            if column - 1 > 0:
+                self.grid[row][column - 1] = 1 - self.grid[row][column - 1]
+            if column + 1 < COLUMN_COUNT:
+                self.grid[row][column + 1] = 1 - self.grid[row][column + 1]
 
 def main():
 
