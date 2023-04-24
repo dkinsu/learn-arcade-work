@@ -85,6 +85,7 @@ class MyGame(arcade.Window):
         if row < ROW_COUNT and column < COLUMN_COUNT:
 
             # Flip the location between 1 and 0.
+            # If statements govern values lying outside the grid
             self.grid[row][column] = 1 - self.grid[row][column]
             if row - 1 > 0:
                 self.grid[row - 1][column] = 1 - self.grid[row - 1][column]
