@@ -78,12 +78,6 @@ class MyGame(arcade.Window):
         column = x // (WIDTH + MARGIN)
         row = y // (HEIGHT + MARGIN)
 
-        # Initializing variable for cell counting loops
-        selected = 0
-        row_selected = 0
-        column_selected = 0
-        continuous_count = 0
-
         print(f"Click coordinates: ({x}, {y}). Grid coordinates: ({row}, {column})")
 
         # Make sure we are on-grid. It is possible to click in the upper right
@@ -96,14 +90,40 @@ class MyGame(arcade.Window):
             else:
                 self.grid[row][column] = 0
 
-        for i in row:
+        selected = 0
+        continuous_count = 0
+
+        for i in range(ROW_COUNT):
             # print('In row', i,'there are ', row_selected, 'cells selected', end ='')
-            for j in column:
+            for j in range(COLUMN_COUNT):
                 if self.grid[i][j] == 1:
                     selected += 1
-        # print(selected,'columns')
-        print("Total of ", selected, "cells selected")
-        selected = 0
+        print('The grid has', selected, 'cells selected.')
+
+        # add columns in individual rows
+        for i in range(ROW_COUNT):
+            selected = 0
+            continuous_count = 0
+            for j in range(COLUMN_COUNT):
+                if self.grid[i][j] == 1:
+                    selected += 1
+                if self.grid[i][j] == 1:
+                    continuous_count += 1
+                if self.grid[i][j] == 0:
+                    if continuous_count >= 2:
+                        print('Row', i, 'has', continuous_count, 'cells selected in a row')
+            print('Row', i, 'has', selected, 'columns selected.')
+
+        # add rows in individual columns
+        for j in range(COLUMN_COUNT):
+            selected = 0
+            continuous_count = 0
+            for i in range(ROW_COUNT):
+                if self.grid[i][j] == 1:
+                    selected += 1
+                    # continuous_count = selected
+            print('Column', j, 'has', selected, 'rows selected.')
+            # print('Column', j, 'has', continuous_count, 'rows continously selected')
 
 def main():
 
