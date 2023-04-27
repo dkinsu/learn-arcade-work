@@ -61,35 +61,42 @@ def main():
     key = Item(3, "A glass key. Brittle. It will definitely break after use. Get the key?", "key")
     item_list.append(key)
     elixir = Item(2, "A healing elixir. It will restore your HP, but can only be used once. Get the elixir?",
-                  "Health Elixir")
+                  "elixir")
     item_list.append(elixir)
 
     # Bedroom 2 - 0 - (description, north, east, south, west, down, up)
-    room = Room("You are in the second bedroom, there is a door to the east.", None, 1, None, None, None, None)
+    room = Room("You are in the second bedroom, there is a door to the east.",
+                None, 1, None, None, None, None)
     room_list.append(room)
 
     # South Hall - 1
-    south_hall = Room("You are in the south hall.\nThere are doors to the north, east, and west.", 4, 2, None, 0, None, None)
+    south_hall = Room("You are in the south hall.\nThere are doors to the north, east, and west.",
+                      4, 2, None, 0, None, None)
     room_list.append(south_hall)
 
     # Dining Room - 2
-    dining_room = Room("You are in the dining room.\nThere are doors to the west and north.", 5, None, None, 1, None, None)
+    dining_room = Room("You are in the dining room.\nThere are doors to the west and north.",
+                       5, None, None, 1, None, None)
     room_list.append(dining_room)
 
     # Bedroom 1 - 3
-    bedroom1 = Room("You are in the first bedroom.\nThere is a door to the east.", None, 4, None, None, None, None)
+    bedroom1 = Room("You are in the first bedroom.\nThere is a door to the east.",
+                    None, 4, None, None, None, None)
     room_list.append(bedroom1)
 
     # North Hall - 4
-    north_hall = Room("You are in the north hall.\nThere are doors to the north, east, south, and west.", 6, 5, 1, 3, None, None)
+    north_hall = Room("You are in the north hall.\nThere are doors to the north, east, south, and west.",
+                      6, 5, 1, 3, None, None)
     room_list.append(north_hall)
 
     # Kitchen - 5
-    kitchen = Room("You are in the kitchen.\nThere are doors to the south and west.", None, None, 2, 4, None, None)
+    kitchen = Room("You are in the kitchen.\nThere are doors to the south and west.",
+                   None, None, 2, 4, None, None)
     room_list.append(kitchen)
 
     # Balcony - 6
-    balcony = Room("You are on the balcony.\nThere is a door to the south.", None, None, 4, None, 7, None)
+    balcony = Room("You are on the balcony.\nThere is a door to the south.",
+                   None, None, 4, None, 7, None)
     room_list.append(balcony)
 
     # Town road - 7
@@ -138,11 +145,10 @@ def main():
             for item in item_list:
                 if item.room_number == current_room:
                     item.room_number = -1
-                    print (item.i_name, 'retrieved.')
+                    print('You retrieved the ', item.i_name, '.')
                     found = True
             if not found:
                 print('No items are present.')
-
 
         elif command_words[0] == 'i':
             found = False
@@ -153,13 +159,17 @@ def main():
             if not found:
                 print('Your inventory is empty.')
 
-
         elif 'drop' in command_words:
-            drop = input("What would you like to drop? ").lower
-            for item in item_list:
-                if item.room_number == -1:
-                    if drop == item.i_name:
-                        item.room_number = current_room
+            drop = input("What would you like to drop? ").lower()
+            # for item in item_list:
+            #     if item.room_number == -1:
+            #         if drop == item.i_name:
+            #             item.room_number = current_room
+
+            for i in range(len(item_list)):
+                if item_list[i].room_number == -1:
+                    if drop == item_list[i].i_name:
+                        item_list[i].room_number = current_room
 
         elif command_words[0] == 'q':
             print("Game over.")
