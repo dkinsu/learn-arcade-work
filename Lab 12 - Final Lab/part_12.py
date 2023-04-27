@@ -27,6 +27,16 @@ class PlayerClass:
         self.p_skill2 = p_skill2
         self.p_range = p_range
 
+class Enemy:
+    def __init__(self, monster_description, monster_name, monster_hp, monster_attack, m_skill1, m_skill2, m_range):
+        self.monster_description = monster_description
+        self.monster_name = monster_name
+        self.monster_hp = monster_hp
+        self.monster_attack = monster_attack
+        self.m_skill1 = m_skill1
+        self.m_skill2 = m_skill2
+        self.m_range = m_range
+
 
 def player_classes():
     wizard = PlayerClass("A class that wields magic.\nPowerful ranged offense, weaker defense.",
@@ -43,12 +53,15 @@ def main():
     player_classes()
     item_list = []
     room_list = []
+    current_item = 0
     current_room = 0
     next_room = 0
     done = False
 
-    glass_key = Item(5, "A glass key. Brittle. It will definitely break after use.", "Glass Key")
-    hp_potion_1 = Item(-1, "A health potion. It will restore your HP, but can only be used once.", "Health Potion")
+    gkey = Item(5, "A glass key. Brittle. It will definitely break after use.", "key")
+    item_list.append(gkey)
+    elixir = Item(2, "A healing elixir. It will restore your HP, but can only be used once.", "Health Elixir")
+    item_list.append(elixir)
 
     # Bedroom 2 - 0 - (description, north, east, south, west)
     room = Room("You are in the second bedroom, there is a door to the east.", None, 1, None, None, None, None)
@@ -78,12 +91,13 @@ def main():
     balcony = Room("You are on the balcony.\nThere is a door to the south.", None, None, 4, None, None, None)
     room_list.append(balcony)
 
-    print("Welcome to the haunted mansion!\nDo your best to escape!\nInput q to quit.")
+    print("You have awoken from what feels like years of sleep. You are currently in a mansion."
+          "\nIt would be wise to seek out someone who knows why.\nInput q to quit.")
 
     while not done:
         # rudimentary gameplay through avoidance of enemies
         # dining room ghost
-        if room_list[current_room] == dining_room:
+        """if room_list[current_room] == dining_room:
             print("There is a hungry looking ghost present.\nYou can fight, or avoid it.\n(f, or n, e, s, w input)")
             fight = input("Fight? ").lower()
             if fight[0] == 'f':
@@ -111,9 +125,15 @@ def main():
             jump = input("Jump? (yes/no) ").lower()
             if jump[0] == 'y':
                 print("You safely land from the balcony, and escape the creatures of the night.\nYou win! Game over.")
-                break
+                break"""
 
         print(room_list[current_room].description)
+        current_item = 0
+        # item_found = False
+        # while not item_found:
+        for item in item_list:
+            if item.room_number == current_room:
+                print(item.i_description)
         direction = input("Which way would you like to go? (n s e w) ").lower()
 
         if direction[0] == 'n':
