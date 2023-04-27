@@ -134,7 +134,7 @@ def main():
         for item in item_list:
             if item.room_number == current_room:
                 print(item.i_description)
-        direction = input("Which way would you like to go? (n s e w) ").lower()
+        direction = input("What is your command? (n s e w) ").lower()
 
         if direction[0] == 'n':
             next_room = room_list[current_room].north
