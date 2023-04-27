@@ -92,40 +92,9 @@ def main():
     room_list.append(balcony)
 
     print("You have awoken from what feels like years of sleep. You are currently in a mansion."
-          "\nIt would be wise to seek out someone who knows why.\nInput q to quit.")
+          "\nIt would be wise to seek out someone who knows why.\nInput c for controls.")
 
     while not done:
-        # rudimentary gameplay through avoidance of enemies
-        # dining room ghost
-        """if room_list[current_room] == dining_room:
-            print("There is a hungry looking ghost present.\nYou can fight, or avoid it.\n(f, or n, e, s, w input)")
-            fight = input("Fight? ").lower()
-            if fight[0] == 'f':
-                print("Why did you think you could beat a ghost? Game over.")
-                break
-
-        # kitchen vampire
-        if room_list[current_room] == kitchen:
-            print("There is a vampire standing in the kitchen.\nQuick, throw the nearby garlic at him!\n(yes/no)")
-            throw = input("Throw garlic? ").lower()
-            if throw[0] == 'y':
-                print("The vampire is dazed. Best to leave now. ")
-            else:
-                print("You probably should have thrown that garlic. Now you're the vampire's meal. Game Over.")
-                break
-
-        # bedroom 1 werewolf
-        if room_list[current_room] == bedroom1:
-            print("There is a werewolf in the bedroom! It's too fast to avoid! Game over.")
-            break
-
-        # balcony escape
-        if room_list[current_room] == balcony:
-            print("Maybe you can jump off the balcony to escape.")
-            jump = input("Jump? (yes/no) ").lower()
-            if jump[0] == 'y':
-                print("You safely land from the balcony, and escape the creatures of the night.\nYou win! Game over.")
-                break"""
 
         print(room_list[current_room].description)
         current_item = 0
@@ -134,7 +103,7 @@ def main():
         for item in item_list:
             if item.room_number == current_room:
                 print(item.i_description)
-        command_words = input("What is your command?").lower().split(" ")
+        command_words = input("What is your command? ").lower().split(" ")
         #direction = input("What is your command? (n s e w) ").lower()
 
         if command_words[0] == 'n':
@@ -155,11 +124,19 @@ def main():
         elif command_words[0] == 'u':
             next_room = room_list[current_room].up
 
+        elif command_words[0] == 'c':
+            print('N, E, S W, for cardinal directions, '
+                  'D, U, for down and up,\nI for inventory, '
+                  'get to retrieve items, drop to drop items, and u to use items. Q to quit.')
+
         elif 'get' in command_words:
             for item in item_list:
                 if item.room_number == current_room:
                     item.room_number = -1
                     print (item.i_name, 'retrieved.')
+                """else:
+                    print('No items are present.')
+                    break"""
 
         elif command_words[0] == 'i':
             for item in item_list:
@@ -168,6 +145,13 @@ def main():
                 else:
                     print('Your inventory is empty.')
                     break
+
+        elif 'drop' in command_words:
+            drop = input("What would you like to drop? ").lower
+            for item in item_list:
+                if item.room_number == -1:
+                    if drop == item.i_name:
+                        item.room_number = current_room
 
         elif command_words[0] == 'q':
             print("Game over.")
