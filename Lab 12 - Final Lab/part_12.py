@@ -134,21 +134,22 @@ def main():
         for item in item_list:
             if item.room_number == current_room:
                 print(item.i_description)
-        direction = input("What is your command? (n s e w) ").lower()
+        command_words = input("What is your command?").lower().split(" ")
+        #direction = input("What is your command? (n s e w) ").lower()
 
-        if direction[0] == 'n':
+        if command_words[0] == 'n':
             next_room = room_list[current_room].north
 
-        elif direction[0] == 's':
+        elif command_words[0] == 's':
             next_room = room_list[current_room].south
 
-        elif direction[0] == 'e':
+        elif command_words[0] == 'e':
             next_room = room_list[current_room].east
 
-        elif direction[0] == 'w':
+        elif command_words[0] == 'w':
             next_room = room_list[current_room].west
 
-        elif direction[0] == 'q':
+        elif command_words[0] == 'q':
             print("Game over.")
             break
 
