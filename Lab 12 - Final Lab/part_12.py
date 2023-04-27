@@ -27,6 +27,7 @@ class PlayerClass:
         self.p_skill2 = p_skill2
         self.p_range = p_range
 
+
 class Enemy:
     def __init__(self, monster_description, monster_name, monster_hp, monster_attack, m_skill1, m_skill2, m_range):
         self.monster_description = monster_description
@@ -63,7 +64,7 @@ def main():
                   "Health Elixir")
     item_list.append(elixir)
 
-    # Bedroom 2 - 0 - (description, north, east, south, west)
+    # Bedroom 2 - 0 - (description, north, east, south, west, down, up)
     room = Room("You are in the second bedroom, there is a door to the east.", None, 1, None, None, None, None)
     room_list.append(room)
 
@@ -88,23 +89,26 @@ def main():
     room_list.append(kitchen)
 
     # Balcony - 6
-    balcony = Room("You are on the balcony.\nThere is a door to the south.", None, None, 4, None, None, None)
+    balcony = Room("You are on the balcony.\nThere is a door to the south.", None, None, 4, None, 7, None)
     room_list.append(balcony)
 
+    # Town road - 7
+    """town_road = Room('You are on the road to a nearby town. The town is to the north, '
+                     'there is a forest to the east, and a lake to the west. '
+                     'You can also climb back up to the balcony. ', 8, 9, None, 10, None, 6)
+    # Town - 8"""
+
     print("You have awoken from what feels like years of sleep. You are currently in a mansion."
-          "\nIt would be wise to seek out someone who knows why.\nInput c for controls.")
+          "\nIt would be wise to seek out someone who knows why.\nInput C for controls.")
 
     while not done:
 
         print(room_list[current_room].description)
-        current_item = 0
-        # item_found = False
-        # while not item_found:
+
         for item in item_list:
             if item.room_number == current_room:
                 print(item.i_description)
         command_words = input("What is your command? ").lower().split(" ")
-        #direction = input("What is your command? (n s e w) ").lower()
 
         if command_words[0] == 'n':
             next_room = room_list[current_room].north
@@ -130,21 +134,25 @@ def main():
                   'get to retrieve items, drop to drop items, and u to use items. Q to quit.')
 
         elif 'get' in command_words:
+            found = False
             for item in item_list:
                 if item.room_number == current_room:
                     item.room_number = -1
                     print (item.i_name, 'retrieved.')
-                """else:
-                    print('No items are present.')
-                    break"""
+                    found = True
+            if not found:
+                print('No items are present.')
+
 
         elif command_words[0] == 'i':
+            found = False
             for item in item_list:
                 if item.room_number == -1:
                     print('Your inventory contains', item.i_name)
-                else:
-                    print('Your inventory is empty.')
-                    break
+                    found = True
+            if not found:
+                print('Your inventory is empty.')
+
 
         elif 'drop' in command_words:
             drop = input("What would you like to drop? ").lower
