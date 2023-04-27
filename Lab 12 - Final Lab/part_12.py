@@ -63,6 +63,8 @@ def main():
     elixir = Item(2, "A healing elixir. It will restore your HP, but can only be used once. Get the elixir?",
                   "elixir")
     item_list.append(elixir)
+    mirror = Item(1, "A pocket mirror is lying on the ground. Get it?", "mirror")
+    item_list.append(mirror)
 
     # Bedroom 2 - 0 - (description, north, east, south, west, down, up)
     room = Room("You are in the second bedroom, there is a door to the east.",
@@ -170,6 +172,15 @@ def main():
                 if item_list[i].room_number == -1:
                     if drop == item_list[i].i_name:
                         item_list[i].room_number = current_room
+
+        elif 'use' in command_words:
+            use = input("What would you like to use? ").lower()
+
+            for i in range(len(item_list)):
+                if item_list[i].room_number == -1:
+                    if use == item_list[i].i_name:
+                        if use == "mirror":
+                            print('You look dashing.')
 
         elif command_words[0] == 'q':
             print("Game over.")
