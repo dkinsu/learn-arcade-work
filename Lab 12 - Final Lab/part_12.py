@@ -53,14 +53,14 @@ def main():
     player_classes()
     item_list = []
     room_list = []
-    current_item = 0
     current_room = 0
     next_room = 0
     done = False
 
-    gkey = Item(5, "A glass key. Brittle. It will definitely break after use.", "key")
-    item_list.append(gkey)
-    elixir = Item(2, "A healing elixir. It will restore your HP, but can only be used once.", "Health Elixir")
+    key = Item(3, "A glass key. Brittle. It will definitely break after use. Get the key?", "key")
+    item_list.append(key)
+    elixir = Item(2, "A healing elixir. It will restore your HP, but can only be used once. Get the elixir?",
+                  "Health Elixir")
     item_list.append(elixir)
 
     # Bedroom 2 - 0 - (description, north, east, south, west)
@@ -149,12 +149,32 @@ def main():
         elif command_words[0] == 'w':
             next_room = room_list[current_room].west
 
+        elif command_words[0] == 'd':
+            next_room = room_list[current_room].down
+
+        elif command_words[0] == 'u':
+            next_room = room_list[current_room].up
+
+        elif 'get' in command_words:
+            for item in item_list:
+                if item.room_number == current_room:
+                    item.room_number = -1
+                    print (item.i_name, 'retrieved.')
+
+        elif command_words[0] == 'i':
+            for item in item_list:
+                if item.room_number == -1:
+                    print('Your inventory contains', item.i_name)
+                else:
+                    print('Your inventory is empty.')
+                    break
+
         elif command_words[0] == 'q':
             print("Game over.")
             break
 
         else:
-            print("Please pick a valid direction.")
+            print("Please give a valid command.")
             continue
 
         # check for valid choice
