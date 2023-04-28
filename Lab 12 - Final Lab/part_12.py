@@ -17,15 +17,20 @@ class Item:
 
 
 class PlayerClass:
-    def __init__(self, player_description, class_name, class_hp, class_attack, mana, p_skill1, p_skill2, p_range):
+    def __init__(self, player_description, class_name, class_hp, class_max_hp, class_attack, mana, max_mana, p_skill1, p_skill2, p_range,
+                 p_skill1_desc, p_skill2_desc):
         self.player_description = player_description
         self.class_name = class_name
         self.class_hp = class_hp
+        self.class_max_hp = class_max_hp
         self.class_attack = class_attack
         self.mana = mana
+        self.max_mana = max_mana
         self.p_skill1 = p_skill1
         self.p_skill2 = p_skill2
         self.p_range = p_range
+        self.p_skill1desc = p_skill1_desc
+        self.p_skill2desc = p_skill2_desc
 
 
 class Enemy:
@@ -39,19 +44,25 @@ class Enemy:
         self.m_range = m_range
 
 
-def player_classes():
-    wizard = PlayerClass("A class that wields magic.\nPowerful ranged offense, weaker defense.",
-                         "Wizard", 40, 15, 60, "Amplify", "Flare", 4)
-    warrior = PlayerClass("A class that fights with heavy close ranged weapons.\nClose-ranged offense, strong defense.",
-                          "Warrior", 60, 7, 30, "Cleave", "Guard Crash", 2)
-    rogue = PlayerClass("A class that fights with melee and ranged weapons.\nVersatile offense, middling defense.",
-                        'Rogue', 50, 10, 45, "Lacerate", "Retreating Shot", 1)
+# def player_classes(wizard, warrior, rogue):
+
+
 
 # not in class!
 
-
 def main():
-    player_classes()
+    wizard = PlayerClass("A class that wields magic.\nPowerful ranged offense, weaker defense.",
+                         "Wizard", 40, 40, 15, 60, 60, "Amplify", "Flare", 4,
+                         'Increases your attack power. Costs 20 mana.',
+                         'Cause a fiery explosion. High damage. Costs 20 mana.')
+    warrior = PlayerClass("A class that fights with heavy close ranged weapons.\nClose-ranged offense, strong defense.",
+                          "Warrior", 60, 60, 7, 30, 30, "Cleave", "Guard", 2,
+                          'A long-reaching powerful swing. Costs 15 mana.',
+                          'Heavily reduces incoming damage. Costs 10 mana.')
+    rogue = PlayerClass("A class that fights with melee and ranged weapons.\nVersatile offense, middling defense.",
+                        'Rogue', 50, 50, 10, 45, 45, "Lacerate", "Retreating Shot", 1,
+                        'A devastating close-ranged attack. Poor range, heavy damage. Costs 15 mana.',
+                        'Fire a shot with a bow before performing evasive maneuvers. Creates distance. Costs 25 mana.')
     item_list = []
     room_list = []
     current_room = 0
@@ -102,10 +113,29 @@ def main():
     room_list.append(balcony)
 
     # Town road - 7
-    """town_road = Room('You are on the road to a nearby town. The town is to the north, '
+    town_road = Room('You are on the road to a nearby town. The town is to the north, '
                      'there is a forest to the east, and a lake to the west. '
                      'You can also climb back up to the balcony. ', 8, 9, None, 10, None, 6)
-    # Town - 8"""
+    room_list.append(town_road)
+    # Town - 8
+    town = Room('You have entered the town. Maybe someone here can tell you what\'s going on.'
+                'there is a road to the south. ', None, None, 7, None, None, None)
+    room_list.append(town)
+    # Forest - 9
+    forest = Room('You stand at the outskirts of the forest. You feel uneasy. '
+                  'You can continue to the east, or return to the road in the west. ', None, None, 11, 7, None, None)
+    room_list.append(forest)
+
+    player_class = None
+    class_select = input('What is your class of choice? ').lower()
+    if 'wizard' in class_select:
+        player_class = wizard
+    elif 'rogue' in class_select:
+        player_class = rogue
+    elif 'warrior' in class_select:
+        player_class = warrior
+    else:
+        print('Please select a valid class.')
 
     print("You have awoken from what feels like years of sleep. You are currently in a mansion."
           "\nIt would be wise to seek out someone who knows why.\nInput C for controls.")
@@ -138,9 +168,10 @@ def main():
             next_room = room_list[current_room].up
 
         elif command_words[0] == 'c':
-            print('N, E, S W, for cardinal directions, '
+            print('N, E, S, W, for cardinal directions, '
                   'D, U, for down and up,\nI for inventory, '
-                  'get to retrieve items, drop to drop items, and u to use items. Q to quit.')
+                  'get to retrieve items, drop to drop items, and u to use items.'
+                  'status for character status.\nQ to quit.')
 
         elif 'get' in command_words:
             found = False
@@ -151,6 +182,9 @@ def main():
                     found = True
             if not found:
                 print('No items are present.')
+
+        elif 'status' in command_words:
+            print('You have ', player_class.class_hp, ' health and ', player_class.mana, ' mana.')
 
         elif command_words[0] == 'i':
             found = False
