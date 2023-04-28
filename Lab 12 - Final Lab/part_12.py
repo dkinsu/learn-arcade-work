@@ -36,7 +36,7 @@ class PlayerClass:
 
 
 class Enemy:
-    def __init__(self, monster_description, monster_name, monster_hp, monster_attack, m_skill1, m_skill1_dmg, m_skill2, m_skill2_dmg, m_range):
+    def __init__(self, monster_description, monster_name, monster_hp, monster_attack, m_skill1, m_skill1_dmg, m_skill2, m_skill2_dmg, m_taunt):
         self.monster_description = monster_description
         self.monster_name = monster_name
         self.monster_hp = monster_hp
@@ -45,7 +45,7 @@ class Enemy:
         self.m_skill1_dmg = m_skill1_dmg
         self.m_skill2 = m_skill2
         self.m_skill2_dmg = m_skill2_dmg
-        self.m_range = m_range
+        self.m_taunt = m_taunt
 
 
 # def player_classes(wizard, warrior, rogue):
@@ -70,7 +70,7 @@ def main():
                         'A devastating close-ranged attack. Poor range, heavy damage. Costs 15 mana.',
                         'Fire a shot with a bow before performing evasive maneuvers. Creates distance. Costs 25 mana.')
 
-    cube = Enemy('A BIG CUBE.', 'THE CUBE', 50, 7, 'CUBIC CONTACT', 7, 'CUBE HYPER STRIKE', 14, 1)
+    cube = Enemy('A BIG CUBE.', 'THE CUBE', 50, 7, 'CUBIC CONTACT', 7, 'CUBE HYPER STRIKE', 14, 'YOU ARE NO MATCH FOR THE CUBE.')
     item_list = []
     room_list = []
     current_room = 0
