@@ -39,7 +39,7 @@ wizard = PlayerClass("A class that wields magic.\nPowerful ranged offense, weake
                      'Cause a fiery explosion. High damage. Costs 20 mana.')
 
 warrior = PlayerClass("A class that fights with heavy close ranged weapons.\nClose-ranged offense, strong defense.",
-                      "Warrior", 60, 60, 7, 30, 30, "Cleave", "Guard", 2,
+                      "Warrior", 60, 60, 8, 30, 30, "Cleave", "Guard", 2,
                       'A long-reaching powerful swing. Costs 15 mana.',
                       'Heavily reduces incoming damage. Costs 10 mana.')
 
