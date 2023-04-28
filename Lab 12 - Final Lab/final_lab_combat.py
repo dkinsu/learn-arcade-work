@@ -97,15 +97,32 @@ while current_enemy.monster_hp > 0:
     elif command_words[0] == 'b' and player_class.p_range < distance:
         print('A valiant attempt. You are too far away.')
 
+    # Movement commands
     elif 'advance' in command_words:
         if distance == 1:
             print('You\'re at point blank range.')
         else:
             distance -= 1
             print('You advanced one meter.')
+            if player_class == rogue:
+                player_class.mana += 7
+                if player_class.mana > player_class.max_mana:
+                    player_class.mana = player_class.max_mana
+            else:
+                player_class.mana += 4
+                if player_class.mana > player_class.max_mana:
+                    player_class.mana = player_class.max_mana
     elif 'retreat' in command_words:
         distance += 2
         print('You retreated two meters.')
+        if player_class == rogue:
+            player_class.mana += 7
+            if player_class.mana > player_class.max_mana:
+                player_class.mana = player_class.max_mana
+        else:
+            player_class.mana += 4
+            if player_class.mana > player_class.max_mana:
+                player_class.mana = player_class.max_mana
 # Skill 1
     elif command_words[0] == '1':
         # Wizard
@@ -206,14 +223,23 @@ while current_enemy.monster_hp > 0:
 
     if distance > 1:
         if distance >= 3:
-            distance -= 2
-            print(current_enemy.monster_name, 'moved 2 meters.')
-        else:
-            distance -=1
+            enemy_move = random.randrange(0, 2)
+            if enemy_move == 1:
+                distance -= 2
+                print(current_enemy.monster_name, 'moved 2 meters.')
+                if distance < 0:
+                    distance = 1
+            else:
+                print(current_enemy.monster_name, 'moved 1 meter.')
+                distance =- 1
+                if distance < 0:
+                    distance = 1
+        elif distance > 1:
+            distance -= 1
             print(current_enemy.monster_name, 'moved 1 meter.')
-    elif distance == 1:
-        enemy_move = random.randrange(0, 2)
-        if enemy_move == 1:
+    if distance == 1:
+        enemy_attack = random.randrange(0, 2)
+        if enemy_attack == 1:
             print(current_enemy.monster_name,'is using', current_enemy.m_skill1)
             enemy_damage = current_enemy.m_skill1_dmg
             player_class.class_hp -= enemy_damage
