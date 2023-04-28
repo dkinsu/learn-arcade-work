@@ -67,6 +67,7 @@ guard = 1
 distance = 4
 current_enemy = cube
 print('You are challenged by', current_enemy.monster_name,'!')
+print('Combat commands: B: Basic attack, 1: Skill 1, 2: Skill 2, advance, retreat, wait')
 while current_enemy.monster_hp > 0:
     if player_class.class_hp <= 0:
         print(current_enemy.m_taunt, '\n You were defeated. Game over.')
