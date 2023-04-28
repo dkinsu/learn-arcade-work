@@ -152,3 +152,16 @@ while current_enemy.monster_hp > 0:
         elif player_class.mana < 10:
             print('You don\'t have enough mana.')
     # Rogue
+    else:
+        if distance <= 3 and player_class.mana >= 25:
+            print('They won\'t be catching you anytime soon.')
+            distance += 2
+            damage = player_class.class_attack * 2
+            player_class.mana -= 25
+        elif distance > 3 and player_class.mana >= 25:
+            print('They won\'t be catching you anytime soon. But you won\'t be catching them either with aim like that.')
+            distance += 2
+            player_class.mana -=25
+        elif player_class.mana < 25:
+            print('You don\'t have enough mana.')
+
