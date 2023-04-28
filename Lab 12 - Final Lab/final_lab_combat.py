@@ -67,11 +67,12 @@ current_enemy = cube
 while current_enemy.monster_hp > 0:
     print('The enemy is ', distance, 'meters away.')
     command_words = input("What is your command? ").lower().split(" ")
-    if command_words[0] == 'a' and player_class.p_range >= distance:
+    if command_words[0] == 'b' and player_class.p_range >= distance:
         damage = player_class.class_attack
         current_enemy.monster_hp -= damage
         print('You have dealt', damage, 'damage.', player_class.mana, 'mana remains.',
-              ' You have', player_class.class_hp, 'HP remaining. The enemy has', current_enemy.monster_hp, 'HP remaining.')
+              ' You have', player_class.class_hp, 'HP remaining. The enemy has',
+              current_enemy.monster_hp, 'HP remaining.')
         # Mana regeneration on basic attack
         if player_class.mana < player_class.max_mana:
             if player_class == wizard:
@@ -87,9 +88,18 @@ while current_enemy.monster_hp > 0:
                 if player_class.mana > player_class.max_mana:
                     player_class.mana = player_class.max_mana
 
-    elif command_words[0] == 'a' and player_class.p_range < distance:
+    elif command_words[0] == 'b' and player_class.p_range < distance:
         print('A valiant attempt. You are too far away.')
 
+    elif 'advance' in command_words:
+        if distance == 1:
+            print('You\'re at point blank range.')
+        else:
+            distance -= 1
+            print('You advanced one meter.')
+    elif 'retreat' in command_words:
+        distance += 2
+        print('You retreated two meters.')
 # Skill 1
     elif command_words[0] == '1':
         # Wizard
@@ -174,12 +184,13 @@ while current_enemy.monster_hp > 0:
                     'HP remaining.')
                 player_class.mana -= 25
             elif distance > 3 and player_class.mana >= 25:
-                print('They won\'t be catching you anytime soon. But you won\'t be catching them either with aim like that.')
+                print('They won\'t be catching you anytime soon. '
+                      'But you won\'t be catching them either with aim like that.')
                 print('You have dealt 0 damage.', player_class.mana, 'mana remains.',
                     ' You have', player_class.class_hp, 'HP remaining. The enemy has', current_enemy.monster_hp,
                     'HP remaining.')
                 distance += 2
-                player_class.mana -=25
+                player_class.mana -= 25
             elif player_class.mana < 25:
                 print('You don\'t have enough mana.')
 
