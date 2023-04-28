@@ -85,6 +85,9 @@ def main():
                      'Just standing near it makes you feel stronger. Get the charm?', 'charm')
     item_list.append(charm)
 
+    dialogue_flag = Item(-2, 'flag for one-use dialogue line', 'd_flag')
+    item_list.append(dialogue_flag)
+
     # Bedroom 2 - 0 - (description, north, east, south, west, down, up)
     room = Room("You are in the second bedroom, there is a door to the east.",
                 None, 1, None, None, None, None)
@@ -116,7 +119,7 @@ def main():
     room_list.append(kitchen)
 
     # Balcony - 6
-    balcony = Room("You are on the balcony.\nThere is a door to the south.",
+    balcony = Room("You are on the balcony.\nThere is a door to the south. You can also jump down.",
                    None, None, 4, None, 7, None)
     room_list.append(balcony)
 
@@ -126,7 +129,7 @@ def main():
                      'You can also climb back up to the balcony. ', 8, 9, None, 10, None, 6)
     room_list.append(town_road)
     # Town - 8
-    town = Room('You have entered the town. Maybe someone here can tell you what\'s going on.'
+    town = Room('You have entered the town. The atmosphere is friendly. '
                 'there is a road to the south. ', None, None, 7, None, None, None)
     room_list.append(town)
     # Forest - 9
@@ -163,8 +166,18 @@ def main():
           "\nIt would be wise to seek out someone who knows why.\nInput C for controls.")
 
     while not done:
+        if current_room == 8 and dialogue_flag.room_number == -2:
+            print('You must be the new hero. I\'m the town\'s chief guard. I\'ll fill you in on what\'s going on.\n'
+                  'To the southeast, through the forest, is a fortress. A dragon inhabits it. That dragon\n'
+                  'used to protect us, but now it antagonizes the village...\n'
+                  'I don\'t know what caused it to change, but as of now,\n'
+                  'it believes that only the strong have a right to live.\n'
+                  'Those who cannot protect themselves must die. That is the dragon\'s doctrine.\n'
+                  'Countless heroes like yourself have tried to stop the dragon, but they never return...\n'
+                  'If you wish to follow in their footsteps, take care in preparing yourself.')
+            dialogue_flag.room_number = -3
 
-        print(room_list[current_room].description)
+        print('\n',room_list[current_room].description)
 
         for item in item_list:
             if item.room_number == current_room:
