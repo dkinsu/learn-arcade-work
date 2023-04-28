@@ -1,3 +1,5 @@
+import random
+
 class Room:
     def __init__(self, description, north, east, south, west, down, up):
         self.description = description
@@ -34,13 +36,15 @@ class PlayerClass:
 
 
 class Enemy:
-    def __init__(self, monster_description, monster_name, monster_hp, monster_attack, m_skill1, m_skill2, m_range):
+    def __init__(self, monster_description, monster_name, monster_hp, monster_attack, m_skill1, m_skill1_dmg, m_skill2, m_skill2_dmg, m_range):
         self.monster_description = monster_description
         self.monster_name = monster_name
         self.monster_hp = monster_hp
         self.monster_attack = monster_attack
         self.m_skill1 = m_skill1
+        self.m_skill1_dmg = m_skill1_dmg
         self.m_skill2 = m_skill2
+        self.m_skill2_dmg = m_skill2_dmg
         self.m_range = m_range
 
 
@@ -65,6 +69,8 @@ def main():
                         'Rogue', 50, 50, 10, 45, 45, "Lacerate", "Retreating Shot", 1,
                         'A devastating close-ranged attack. Poor range, heavy damage. Costs 15 mana.',
                         'Fire a shot with a bow before performing evasive maneuvers. Creates distance. Costs 25 mana.')
+
+    cube = Enemy('A BIG CUBE.', 'THE CUBE', 50, 7, 'CUBIC CONTACT', 7, 'CUBE HYPER STRIKE', 14, 1)
     item_list = []
     room_list = []
     current_room = 0
@@ -134,7 +140,7 @@ def main():
     room_list.append(town)
     # Forest - 9
     forest = Room('You stand at the outskirts of the forest. You feel uneasy. '
-                  'You can continue to the east, or return to the road in the west. ', None, None, 11, 7, None, None)
+                  'You can continue to the east, or return to the road in the west. ', None, 11, None, 7, None, None)
     room_list.append(forest)
     # Lake - 10
     lake = Room('You stand on the edge of a lake. It is clearly not your typical body of water. '
@@ -147,7 +153,7 @@ def main():
     room_list.append(f_entrance)
     # Lake portal - 12
     l_portal = Room('Entering the lake has left you in a small room. '
-                    'There is a treasure chest present. It requires a key.'
+                    'There is a treasure chest present. It requires a key. '
                     'You can return to the surface.', None, None, None, None, None, 10)
     room_list.append(l_portal)
 
@@ -167,7 +173,7 @@ def main():
 
     while not done:
         if current_room == 8 and dialogue_flag.room_number == -2:
-            print('You must be the new hero. I\'m the town\'s chief guard. I\'ll fill you in on what\'s going on.\n'
+            print('\nYou must be the new hero. I\'m the town\'s chief guard. I\'ll fill you in on what\'s going on.\n'
                   'To the southeast, through the forest, is a fortress. A dragon inhabits it. That dragon\n'
                   'used to protect us, but now it antagonizes the village...\n'
                   'I don\'t know what caused it to change, but as of now,\n'
