@@ -64,7 +64,7 @@ else:
 
 damage = int
 guard = 1
-distance = 3
+distance = 4
 current_enemy = cube
 print('You are challenged by', current_enemy.monster_name,'!')
 while current_enemy.monster_hp > 0:
@@ -76,6 +76,8 @@ while current_enemy.monster_hp > 0:
     if command_words[0] == 'b' and player_class.p_range >= distance:
         damage = player_class.class_attack
         current_enemy.monster_hp -= damage
+        if current_enemy.monster_hp < 0:
+            current_enemy.monster_hp = 0
         print('You have dealt', damage, 'damage.', player_class.mana, 'mana remains.',
               ' You have', player_class.class_hp, 'HP remaining. The enemy has',
               current_enemy.monster_hp, 'HP remaining.')
@@ -98,6 +100,17 @@ while current_enemy.monster_hp > 0:
         print('A valiant attempt. You are too far away.')
 
     # Movement commands
+    elif 'wait' in command_words:
+        print('You remain in place.')
+        if player_class == wizard:
+            player_class.mana += 20
+            if player_class.mana > player_class.max_mana:
+                player_class.mana = player_class.max_mana
+        else:
+            player_class.mana += 10
+            if player_class.mana > player_class.max_mana:
+                player_class.mana = player_class.max_mana
+
     elif 'advance' in command_words:
         if distance == 1:
             print('You\'re at point blank range.')
@@ -112,6 +125,7 @@ while current_enemy.monster_hp > 0:
                 player_class.mana += 4
                 if player_class.mana > player_class.max_mana:
                     player_class.mana = player_class.max_mana
+
     elif 'retreat' in command_words:
         retreat_roll = random.randrange(0, 7)
         if retreat_roll <= 2:
@@ -153,6 +167,8 @@ while current_enemy.monster_hp > 0:
                 print('You swing your sword destructively.')
                 damage = player_class.class_attack * 2
                 current_enemy.monster_hp -= damage
+                if current_enemy.monster_hp < 0:
+                    current_enemy.monster_hp = 0
                 print('You have dealt', damage, 'damage.', player_class.mana, 'mana remains.',
                       ' You have', player_class.class_hp, 'HP remaining. The enemy has', current_enemy.monster_hp,
                       'HP remaining.')
@@ -172,6 +188,8 @@ while current_enemy.monster_hp > 0:
                 print('They won\'t be prepared for this.')
                 damage = player_class.class_attack * 4
                 current_enemy.monster_hp -= damage
+                if current_enemy.monster_hp < 0:
+                    current_enemy.monster_hp = 0
                 print('You have dealt', damage, 'damage.', player_class.mana, 'mana remains.',
                       ' You have', player_class.class_hp, 'HP remaining. The enemy has', current_enemy.monster_hp,
                       'HP remaining.')
@@ -190,6 +208,8 @@ while current_enemy.monster_hp > 0:
                 print('Turn them to ash.')
                 damage = player_class.class_attack * 3
                 current_enemy.monster_hp -= damage
+                if current_enemy.monster_hp < 0:
+                    current_enemy.monster_hp = 0
                 print('You have dealt', damage, 'damage.', player_class.mana, 'mana remains.',
                     ' You have', player_class.class_hp, 'HP remaining. The enemy has', current_enemy.monster_hp,
                     'HP remaining.')
@@ -216,6 +236,8 @@ while current_enemy.monster_hp > 0:
                 distance += 2
                 damage = player_class.class_attack * 2
                 current_enemy.monster_hp -= damage
+                if current_enemy.monster_hp < 0:
+                    current_enemy.monster_hp = 0
                 print('You have dealt', damage, 'damage.', player_class.mana, 'mana remains.',
                     ' You have', player_class.class_hp, 'HP remaining. The enemy has', current_enemy.monster_hp,
                     'HP remaining.')
@@ -230,41 +252,43 @@ while current_enemy.monster_hp > 0:
                 player_class.mana -= 25
             elif player_class.mana < 25:
                 print('You don\'t have enough mana.')
-
-    if distance > 1:
-        if distance >= 3:
-            enemy_move = random.randrange(0, 2)
-            if enemy_move == 1:
-                distance -= 2
-                print(current_enemy.monster_name, 'moved 2 meters.')
-                if distance < 0:
-                    distance = 1
-            else:
+    if current_enemy.monster_hp <= 0:
+        print('You have defeated', current_enemy.monster_name, '!')
+    else:
+        if distance > 1:
+            if distance >= 3:
+                enemy_move = random.randrange(0, 2)
+                if enemy_move == 1:
+                    distance -= 2
+                    print(current_enemy.monster_name, 'moved 2 meters.')
+                    if distance <= 0:
+                        distance = 1
+                else:
+                    print(current_enemy.monster_name, 'moved 1 meter.')
+                    distance =- 1
+                    if distance <= 0:
+                        distance = 1
+            elif distance > 1:
+                distance -= 1
                 print(current_enemy.monster_name, 'moved 1 meter.')
-                distance =- 1
-                if distance < 0:
-                    distance = 1
-        elif distance > 1:
-            distance -= 1
-            print(current_enemy.monster_name, 'moved 1 meter.')
-    if distance == 1:
-        enemy_action = random.randrange(0, 4)
-        if enemy_action == 1:
-            print(current_enemy.monster_name, 'makes no action.')
-    # Debugging - not sure how to prevent enemy action
-        enemy_attack = random.randrange(0, 2)
-        if enemy_attack == 1 and enemy_action != 1:
-            print(current_enemy.monster_name,'is using', current_enemy.m_skill1)
-            enemy_damage = current_enemy.m_skill1_dmg
-            dmg_received = enemy_damage // guard
-            player_class.class_hp -= dmg_received
-            print('You received', dmg_received, 'damage.')
-            guard = 1
-        else:
-            if enemy_action != 1:
-                print(current_enemy.monster_name, 'is using', current_enemy.m_skill2)
-                enemy_damage = current_enemy.m_skill2_dmg
+        if distance == 1:
+            enemy_action = random.randrange(0, 4)
+            if enemy_action == 1:
+                print(current_enemy.monster_name, 'makes no action.')
+        # Debugging - not sure how to prevent enemy action
+            enemy_attack = random.randrange(0, 2)
+            if enemy_attack == 1 and enemy_action != 1:
+                print(current_enemy.monster_name,'is using', current_enemy.m_skill1)
+                enemy_damage = current_enemy.m_skill1_dmg
                 dmg_received = enemy_damage // guard
                 player_class.class_hp -= dmg_received
                 print('You received', dmg_received, 'damage.')
                 guard = 1
+            else:
+                if enemy_action != 1:
+                    print(current_enemy.monster_name, 'is using', current_enemy.m_skill2)
+                    enemy_damage = current_enemy.m_skill2_dmg
+                    dmg_received = enemy_damage // guard
+                    player_class.class_hp -= dmg_received
+                    print('You received', dmg_received, 'damage.')
+                    guard = 1
