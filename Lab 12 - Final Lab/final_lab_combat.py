@@ -113,8 +113,17 @@ while current_enemy.monster_hp > 0:
                 if player_class.mana > player_class.max_mana:
                     player_class.mana = player_class.max_mana
     elif 'retreat' in command_words:
-        distance += 2
-        print('You retreated two meters.')
+        retreat_roll = random.randrange(0, 7)
+        if retreat_roll <= 2:
+            r_storage = 2
+            distance += r_storage
+        elif retreat_roll > 2 and retreat_roll <= 5:
+            r_storage = 3
+            distance += r_storage
+        else:
+            r_storage = 4
+            distance += r_storage
+        print('You retreated', r_storage, 'meters.')
         if player_class == rogue:
             player_class.mana += 7
             if player_class.mana > player_class.max_mana:
@@ -206,6 +215,7 @@ while current_enemy.monster_hp > 0:
                 print('They won\'t be catching you anytime soon.')
                 distance += 2
                 damage = player_class.class_attack * 2
+                current_enemy.monster_hp -= damage
                 print('You have dealt', damage, 'damage.', player_class.mana, 'mana remains.',
                     ' You have', player_class.class_hp, 'HP remaining. The enemy has', current_enemy.monster_hp,
                     'HP remaining.')
@@ -238,14 +248,23 @@ while current_enemy.monster_hp > 0:
             distance -= 1
             print(current_enemy.monster_name, 'moved 1 meter.')
     if distance == 1:
+        enemy_action = random.randrange(0, 4)
+        if enemy_action == 1:
+            print(current_enemy.monster_name, 'makes no action.')
+    # Debugging - not sure how to prevent enemy action
         enemy_attack = random.randrange(0, 2)
-        if enemy_attack == 1:
+        if enemy_attack == 1 and enemy_action != 1:
             print(current_enemy.monster_name,'is using', current_enemy.m_skill1)
             enemy_damage = current_enemy.m_skill1_dmg
-            player_class.class_hp -= enemy_damage
-            print('You received', enemy_damage, 'damage.')
+            dmg_received = enemy_damage // guard
+            player_class.class_hp -= dmg_received
+            print('You received', dmg_received, 'damage.')
+            guard = 1
         else:
-            print(current_enemy.monster_name, 'is using', current_enemy.m_skill2)
-            enemy_damage = current_enemy.m_skill2_dmg
-            player_class.class_hp -= enemy_damage
-            print('You received', enemy_damage, 'damage.')
+            if enemy_action != 1:
+                print(current_enemy.monster_name, 'is using', current_enemy.m_skill2)
+                enemy_damage = current_enemy.m_skill2_dmg
+                dmg_received = enemy_damage // guard
+                player_class.class_hp -= dmg_received
+                print('You received', dmg_received, 'damage.')
+                guard = 1
