@@ -1,14 +1,5 @@
 import random
-
-class Room:
-    def __init__(self, description, north, east, south, west, down, up):
-        self.description = description
-        self.north = north
-        self.east = east
-        self.south = south
-        self.west = west
-        self.down = down
-        self.up = up
+import lab_12_rooms
 
 
 class Item:
@@ -72,9 +63,6 @@ def main():
 
     cube = Enemy('A BIG CUBE.', 'THE CUBE', 50, 7, 'CUBIC CONTACT', 7, 'CUBE HYPER STRIKE', 14, 'YOU ARE NO MATCH FOR THE CUBE.')
     item_list = []
-    room_list = []
-    current_room = 0
-    next_room = 0
     done = False
 
     key = Item(3, "A glass key. Brittle. It will definitely break after use. Get the key?", "key")
@@ -94,69 +82,6 @@ def main():
     dialogue_flag = Item(-2, 'flag for one-use dialogue line', 'd_flag')
     item_list.append(dialogue_flag)
 
-    # Bedroom 2 - 0 - (description, north, east, south, west, down, up)
-    room = Room("You are in the second bedroom, there is a door to the east.",
-                None, 1, None, None, None, None)
-    room_list.append(room)
-
-    # South Hall - 1
-    south_hall = Room("You are in the south hall.\nThere are doors to the north, east, and west.",
-                      4, 2, None, 0, None, None)
-    room_list.append(south_hall)
-
-    # Dining Room - 2
-    dining_room = Room("You are in the dining room.\nThere are doors to the west and north.",
-                       5, None, None, 1, None, None)
-    room_list.append(dining_room)
-
-    # Bedroom 1 - 3
-    bedroom1 = Room("You are in the first bedroom.\nThere is a door to the east.",
-                    None, 4, None, None, None, None)
-    room_list.append(bedroom1)
-
-    # North Hall - 4
-    north_hall = Room("You are in the north hall.\nThere are doors to the north, east, south, and west.",
-                      6, 5, 1, 3, None, None)
-    room_list.append(north_hall)
-
-    # Kitchen - 5
-    kitchen = Room("You are in the kitchen.\nThere are doors to the south and west.",
-                   None, None, 2, 4, None, None)
-    room_list.append(kitchen)
-
-    # Balcony - 6
-    balcony = Room("You are on the balcony.\nThere is a door to the south. You can also jump down.",
-                   None, None, 4, None, 7, None)
-    room_list.append(balcony)
-
-    # Town road - 7
-    town_road = Room('You are on the road to a nearby town. The town is to the north, '
-                     'there is a forest to the east, and a lake to the west. '
-                     'You can also climb back up to the balcony. ', 8, 9, None, 10, None, 6)
-    room_list.append(town_road)
-    # Town - 8
-    town = Room('You have entered the town. The atmosphere is friendly. '
-                'there is a road to the south. ', None, None, 7, None, None, None)
-    room_list.append(town)
-    # Forest - 9
-    forest = Room('You stand at the outskirts of the forest. You feel uneasy. '
-                  'You can continue to the east, or return to the road in the west. ', None, 11, None, 7, None, None)
-    room_list.append(forest)
-    # Lake - 10
-    lake = Room('You stand on the edge of a lake. It is clearly not your typical body of water. '
-                'Stepping down into it may be worth a try. There is a road to the east.', None, 7, None, None, 12, None)
-    room_list.append(lake)
-    # Fortress Entrance - 11
-    f_entrance = Room('You\'ve arrived at the entrance of a fortress. '
-                      'You can enter the gate by continuing east, or try to scale the wall.'
-                      'The forest is to the west.', None, 13, None, 9, None, 14)
-    room_list.append(f_entrance)
-    # Lake portal - 12
-    l_portal = Room('Entering the lake has left you in a small room. '
-                    'There is a treasure chest present. It requires a key. '
-                    'You can return to the surface.', None, None, None, None, None, 10)
-    room_list.append(l_portal)
-
     player_class = None
     class_select = input('What is your class of choice? ').lower()
     if 'wizard' in class_select:
@@ -172,7 +97,7 @@ def main():
           "\nIt would be wise to seek out someone who knows why.\nInput C for controls.")
 
     while not done:
-        if current_room == 8 and dialogue_flag.room_number == -2:
+        if lab_12_rooms.current_room == 8 and dialogue_flag.room_number == -2:
             print('\nYou must be the new hero. I\'m the town\'s chief guard. I\'ll fill you in on what\'s going on.\n'
                   'To the southeast, through the forest, is a fortress. A dragon inhabits it. That dragon\n'
                   'used to protect us, but now it antagonizes the village...\n'
@@ -183,30 +108,30 @@ def main():
                   'If you wish to follow in their footsteps, take care in preparing yourself.')
             dialogue_flag.room_number = -3
 
-        print('\n',room_list[current_room].description)
+        print('\n',lab_12_rooms.room_list[lab_12_rooms.current_room].description)
 
         for item in item_list:
-            if item.room_number == current_room:
+            if item.room_number == lab_12_rooms.current_room:
                 print(item.i_description)
         command_words = input("What is your command? ").lower().split(" ")
 
         if command_words[0] == 'n':
-            next_room = room_list[current_room].north
+            lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].north
 
         elif command_words[0] == 's':
-            next_room = room_list[current_room].south
+            lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].south
 
         elif command_words[0] == 'e':
-            next_room = room_list[current_room].east
+            lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].east
 
         elif command_words[0] == 'w':
-            next_room = room_list[current_room].west
+            lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].west
 
         elif command_words[0] == 'd':
-            next_room = room_list[current_room].down
+            lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].down
 
         elif command_words[0] == 'u':
-            next_room = room_list[current_room].up
+            lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].up
 
         elif command_words[0] == 'c':
             print('N, E, S, W, for cardinal directions, '
@@ -217,7 +142,7 @@ def main():
         elif 'get' in command_words:
             found = False
             for item in item_list:
-                if item.room_number == current_room:
+                if item.room_number == lab_12_rooms.current_room:
                     item.room_number = -1
                     print('You retrieved the ', item.i_name, '.')
                     found = True
@@ -247,7 +172,7 @@ def main():
             for i in range(len(item_list)):
                 if item_list[i].room_number == -1:
                     if drop == item_list[i].i_name:
-                        item_list[i].room_number = current_room
+                        item_list[i].room_number = lab_12_rooms.current_room
 
         elif 'use' in command_words:
             use = input("What would you like to use? ").lower()
@@ -259,7 +184,7 @@ def main():
                             print('You look dashing.')
 
                         elif use == 'key':
-                            if current_room == 12:
+                            if lab_12_rooms.current_room == 12:
                                 print('The chest was opened, but the key broke in the process.')
                                 key.room_number = -2
                                 charm.room_number = 12
@@ -278,12 +203,12 @@ def main():
             continue
 
         # check for valid choice
-        if next_room == None:
+        if lab_12_rooms.next_room == None:
             print("You can't go that way!")
             continue
 
         # if all is well, set new room
-        current_room = next_room
+        lab_12_rooms.current_room = lab_12_rooms.next_room
 
 
 main()

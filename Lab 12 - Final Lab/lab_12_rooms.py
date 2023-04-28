@@ -9,6 +9,8 @@ class Room:
         self.up = up
 
 room_list = []
+current_room = 0
+next_room = 0
 
 # Bedroom 2 - 0 - (description, north, east, south, west, down, up)
 room = Room("You are in the second bedroom, there is a door to the east.",
