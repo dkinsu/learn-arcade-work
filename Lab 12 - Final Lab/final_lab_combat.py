@@ -265,7 +265,7 @@ while current_enemy.monster_hp > 0:
                         distance = 1
                 else:
                     print(current_enemy.monster_name, 'moved 1 meter.')
-                    distance =- 1
+                    distance -= 1
                     if distance <= 0:
                         distance = 1
             elif distance > 1:
