@@ -2,8 +2,9 @@ import random
 import lab_12_rooms
 import lab_12_items
 
-INVENTORY = -1
-OUT_OF_PLAY = -2
+# Inventory and out of play
+INV = -1
+OOP = -2
 
 class Item:
     def __init__(self, room_number, i_description, i_name):
@@ -76,17 +77,21 @@ def main():
     dragon_defeated = 0
     done = False
 
-
+    flag = False
     player_class = None
-    class_select = input('What is your class of choice? ').lower()
-    if 'wizard' in class_select:
-        player_class = wizard
-    elif 'rogue' in class_select:
-        player_class = rogue
-    elif 'warrior' in class_select:
-        player_class = warrior
-    else:
-        print('Please select a valid class.')
+    while not flag:
+        class_select = input('What is your class of choice? ').lower()
+        if 'wizard' in class_select:
+            player_class = wizard
+            flag = True
+        elif 'rogue' in class_select:
+            player_class = rogue
+            flag = True
+        elif 'warrior' in class_select:
+            player_class = warrior
+            flag = True
+        else:
+            print('Please select a valid class.')
 
     print("You have awoken from what feels like years of sleep. You are currently in a mansion."
           "\nIt would be wise to seek out someone who knows why.\nInput C for controls.")
@@ -139,7 +144,7 @@ def main():
             found = False
             for item in item_list:
                 if item.room_number == lab_12_rooms.current_room:
-                    item.room_number = -1
+                    item.room_number = INV
                     print('You retrieved the ', item.i_name, '.')
                     found = True
             if not found:
@@ -152,7 +157,7 @@ def main():
         elif command_words[0] == 'i':
             found = False
             for item in item_list:
-                if item.room_number == -1:
+                if item.room_number == INV:
                     print('Your inventory contains', item.i_name)
                     found = True
             if not found:
@@ -160,13 +165,9 @@ def main():
 
         elif 'drop' in command_words:
             drop = input("What would you like to drop? ").lower()
-            # for item in item_list:
-            #     if item.room_number == -1:
-            #         if drop == item.i_name:
-            #             item.room_number = current_room
 
             for i in range(len(item_list)):
-                if item_list[i].room_number == INVENTORY:
+                if item_list[i].room_number == INV:
                     if drop == item_list[i].i_name:
                         item_list[i].room_number = lab_12_rooms.current_room
 
@@ -174,7 +175,7 @@ def main():
             use = input("What would you like to use? ").lower()
 
             for i in range(len(item_list)):
-                if item_list[i].room_number == -1:
+                if item_list[i].room_number == INV:
                     if use == item_list[i].i_name:
                         if use == 'mirror':
                             print('You look dashing.')
@@ -182,7 +183,7 @@ def main():
                         elif use == 'key':
                             if lab_12_rooms.current_room == 12:
                                 print('The chest was opened, but the key broke in the process.')
-                                item_list[i].room_number = -2
+                                item_list[i].room_number = OOP
                                 charm = get_item(item_list, 'charm')
                                 charm.room_number = 12
 
@@ -190,14 +191,15 @@ def main():
                             print('The charm is absorbed into your weapon. You\'ve gotten stronger.')
                             player_class.class_attack += 3
                             charm = get_item(item_list, 'charm')
-                            charm.room_number = -2
+                            charm.room_number = OOP
 
                         elif use == 'elixir':
                             print('You\'ve been fully healed.')
                             # hp = max_hp
                             elixir = get_item(item_list, 'elixir')
-                            elixir.room_number = -2
-
+                            elixir.room_number = OOP
+                    else:
+                        print('You do not have that item.')
         elif command_words[0] == 'q':
             print("Game over.")
             break
