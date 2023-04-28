@@ -55,10 +55,12 @@ def main():
                          "Wizard", 40, 40, 15, 60, 60, "Amplify", "Flare", 4,
                          'Increases your attack power. Costs 20 mana.',
                          'Cause a fiery explosion. High damage. Costs 20 mana.')
+
     warrior = PlayerClass("A class that fights with heavy close ranged weapons.\nClose-ranged offense, strong defense.",
                           "Warrior", 60, 60, 7, 30, 30, "Cleave", "Guard", 2,
                           'A long-reaching powerful swing. Costs 15 mana.',
                           'Heavily reduces incoming damage. Costs 10 mana.')
+
     rogue = PlayerClass("A class that fights with melee and ranged weapons.\nVersatile offense, middling defense.",
                         'Rogue', 50, 50, 10, 45, 45, "Lacerate", "Retreating Shot", 1,
                         'A devastating close-ranged attack. Poor range, heavy damage. Costs 15 mana.',
@@ -71,11 +73,17 @@ def main():
 
     key = Item(3, "A glass key. Brittle. It will definitely break after use. Get the key?", "key")
     item_list.append(key)
+
     elixir = Item(2, "A healing elixir. It will restore your HP, but can only be used once. Get the elixir?",
                   "elixir")
     item_list.append(elixir)
-    mirror = Item(1, "A pocket mirror is lying on the ground. Get it?", "mirror")
+
+    mirror = Item(1, "A pocket mirror is lying on the ground. Get the mirror?", "mirror")
     item_list.append(mirror)
+
+    charm = Item(-2, 'A charm of some sort is present. '
+                     'Just standing near it makes you feel stronger. Get the charm?', 'charm')
+    item_list.append(charm)
 
     # Bedroom 2 - 0 - (description, north, east, south, west, down, up)
     room = Room("You are in the second bedroom, there is a door to the east.",
@@ -125,6 +133,20 @@ def main():
     forest = Room('You stand at the outskirts of the forest. You feel uneasy. '
                   'You can continue to the east, or return to the road in the west. ', None, None, 11, 7, None, None)
     room_list.append(forest)
+    # Lake - 10
+    lake = Room('You stand on the edge of a lake. It is clearly not your typical body of water. '
+                'Stepping down into it may be worth a try. There is a road to the east.', None, 7, None, None, 12, None)
+    room_list.append(lake)
+    # Fortress Entrance - 11
+    f_entrance = Room('You\'ve arrived at the entrance of a fortress. '
+                      'You can enter the gate by continuing east, or try to scale the wall.'
+                      'The forest is to the west.', None, 13, None, 9, None, 14)
+    room_list.append(f_entrance)
+    # Lake portal - 12
+    l_portal = Room('Entering the lake has left you in a small room. '
+                    'There is a treasure chest present. It requires a key.'
+                    'You can return to the surface.', None, None, None, None, None, 10)
+    room_list.append(l_portal)
 
     player_class = None
     class_select = input('What is your class of choice? ').lower()
@@ -184,7 +206,8 @@ def main():
                 print('No items are present.')
 
         elif 'status' in command_words:
-            print('You have ', player_class.class_hp, ' health and ', player_class.mana, ' mana.')
+            print('You have', player_class.class_hp, 'health and ', player_class.mana, 'mana.'
+                  ' Your attack stat is', player_class.class_attack,'.')
 
         elif command_words[0] == 'i':
             found = False
@@ -213,8 +236,19 @@ def main():
             for i in range(len(item_list)):
                 if item_list[i].room_number == -1:
                     if use == item_list[i].i_name:
-                        if use == "mirror":
+                        if use == 'mirror':
                             print('You look dashing.')
+
+                        elif use == 'key':
+                            if current_room == 12:
+                                print('The chest was opened, but the key broke in the process.')
+                                key.room_number = -2
+                                charm.room_number = 12
+
+                        elif use == 'charm':
+                            print('The charm is absorbed into your weapon. You\'ve gotten stronger.')
+                            player_class.class_attack += 3
+                            charm.room_number = -2
 
         elif command_words[0] == 'q':
             print("Game over.")
