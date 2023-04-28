@@ -1,6 +1,9 @@
 import random
 import lab_12_rooms
+import lab_12_items
 
+INVENTORY = -1
+OUT_OF_PLAY = -2
 
 class Item:
     def __init__(self, room_number, i_description, i_name):
@@ -44,6 +47,10 @@ class Enemy:
 
 
 # not in class!
+def get_item(item_list, name):
+    for item in item_list:
+        if name == item.i_name:
+            return item
 
 def main():
     wizard = PlayerClass("A class that wields magic.\nPowerful ranged offense, weaker defense.",
@@ -63,24 +70,12 @@ def main():
 
     cube = Enemy('A BIG CUBE.', 'THE CUBE', 50, 7, 'CUBIC CONTACT', 7, 'CUBE HYPER STRIKE', 14, 'YOU ARE NO MATCH FOR THE CUBE.')
     item_list = []
+    dialogue_flag = 0
+    cube_defeated = 0
+    long_defeated = 0
+    dragon_defeated = 0
     done = False
 
-    key = Item(3, "A glass key. Brittle. It will definitely break after use. Get the key?", "key")
-    item_list.append(key)
-
-    elixir = Item(2, "A healing elixir. It will restore your HP, but can only be used once. Get the elixir?",
-                  "elixir")
-    item_list.append(elixir)
-
-    mirror = Item(1, "A pocket mirror is lying on the ground. Get the mirror?", "mirror")
-    item_list.append(mirror)
-
-    charm = Item(-2, 'A charm of some sort is present. '
-                     'Just standing near it makes you feel stronger. Get the charm?', 'charm')
-    item_list.append(charm)
-
-    dialogue_flag = Item(-2, 'flag for one-use dialogue line', 'd_flag')
-    item_list.append(dialogue_flag)
 
     player_class = None
     class_select = input('What is your class of choice? ').lower()
@@ -95,9 +90,9 @@ def main():
 
     print("You have awoken from what feels like years of sleep. You are currently in a mansion."
           "\nIt would be wise to seek out someone who knows why.\nInput C for controls.")
-
+    item_list = lab_12_items.populate_items()
     while not done:
-        if lab_12_rooms.current_room == 8 and dialogue_flag.room_number == -2:
+        if lab_12_rooms.current_room == 8 and dialogue_flag == 0:
             print('\nYou must be the new hero. I\'m the town\'s chief guard. I\'ll fill you in on what\'s going on.\n'
                   'To the southeast, through the forest, is a fortress. A dragon inhabits it. That dragon\n'
                   'used to protect us, but now it antagonizes the village...\n'
@@ -106,10 +101,11 @@ def main():
                   'Those who cannot protect themselves must die. That is the dragon\'s doctrine.\n'
                   'Countless heroes like yourself have tried to stop the dragon, but they never return...\n'
                   'If you wish to follow in their footsteps, take care in preparing yourself.')
-            dialogue_flag.room_number = -3
+            dialogue_flag = 1
 
         print('\n',lab_12_rooms.room_list[lab_12_rooms.current_room].description)
 
+        # item_list = lab_12_items.populate_items()
         for item in item_list:
             if item.room_number == lab_12_rooms.current_room:
                 print(item.i_description)
@@ -170,7 +166,7 @@ def main():
             #             item.room_number = current_room
 
             for i in range(len(item_list)):
-                if item_list[i].room_number == -1:
+                if item_list[i].room_number == INVENTORY:
                     if drop == item_list[i].i_name:
                         item_list[i].room_number = lab_12_rooms.current_room
 
@@ -186,13 +182,21 @@ def main():
                         elif use == 'key':
                             if lab_12_rooms.current_room == 12:
                                 print('The chest was opened, but the key broke in the process.')
-                                key.room_number = -2
+                                item_list[i].room_number = -2
+                                charm = get_item(item_list, 'charm')
                                 charm.room_number = 12
 
                         elif use == 'charm':
                             print('The charm is absorbed into your weapon. You\'ve gotten stronger.')
                             player_class.class_attack += 3
+                            charm = get_item(item_list, 'charm')
                             charm.room_number = -2
+
+                        elif use == 'elixir':
+                            print('You\'ve been fully healed.')
+                            # hp = max_hp
+                            elixir = get_item(item_list, 'elixir')
+                            elixir.room_number = -2
 
         elif command_words[0] == 'q':
             print("Game over.")
