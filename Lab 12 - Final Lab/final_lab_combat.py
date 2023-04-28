@@ -60,7 +60,7 @@ elif 'warrior' in class_select:
     player_class = warrior
 else:
     print('Please select a valid class.')
-damage = None
+damage = int
 guard = 1
 distance = 3
 current_enemy = cube
@@ -68,9 +68,10 @@ while current_enemy.monster_hp > 0:
     print('The enemy is ', distance, 'meters away.')
     command_words = input("What is your command? ").lower().split(" ")
     if command_words[0] == 'a' and player_class.p_range >= distance:
-        player_class.class_attack = damage
+        damage = player_class.class_attack
         current_enemy.monster_hp -= damage
-
+        print('You have dealt', damage, 'damage.', player_class.mana, 'mana remains.',
+              ' You have', player_class.class_hp, 'HP remaining. The enemy has', current_enemy.monster_hp, 'HP remaining.')
         # Mana regeneration on basic attack
         if player_class.mana < player_class.max_mana:
             if player_class == wizard:
@@ -109,11 +110,15 @@ while current_enemy.monster_hp > 0:
                 print('You swing your sword destructively.')
                 damage = player_class.class_attack * 2
                 current_enemy.monster_hp -= damage
-                print('You have dealt', damage, 'damage.')
+                print('You have dealt', damage, 'damage.', player_class.mana, 'mana remains.',
+                      ' You have', player_class.class_hp, 'HP remaining. The enemy has', current_enemy.monster_hp,
+                      'HP remaining.')
                 player_class.mana -= 15
             elif distance > 3 and player_class.mana >= 15:
                 print('You swing your sword destructively... From too far away.')
-                print('You have dealt 0 damage.')
+                print('You have dealt 0 damage.', player_class.mana, 'mana remains.',
+                      ' You have', player_class.class_hp, 'HP remaining. The enemy has', current_enemy.monster_hp,
+                      'HP remaining.')
                 player_class.mana -= 15
             elif player_class.mana < 15:
                 print('You don\'t have enough mana.')
@@ -123,11 +128,15 @@ while current_enemy.monster_hp > 0:
                 print('They won\'t be prepared for this.')
                 damage = player_class.class_attack * 4
                 current_enemy.monster_hp -= damage
-                print('You have dealt', damage, 'damage.')
+                print('You have dealt', damage, 'damage.', player_class.mana, 'mana remains.',
+                      ' You have', player_class.class_hp, 'HP remaining. The enemy has', current_enemy.monster_hp,
+                      'HP remaining.')
                 player_class.mana -= 15
             elif distance > 1 and player_class.mana >= 15:
                 print('They won\'t be prepared for this... But neither were you. You missed.')
-                print('You have dealt 0 damage.')
+                print('You have dealt 0 damage.', player_class.mana, 'mana remains.',
+                      ' You have', player_class.class_hp, 'HP remaining. The enemy has', current_enemy.monster_hp,
+                      'HP remaining.')
                 player_class.mana -= 15
 # Skill 2
     # Wizard
@@ -141,27 +150,36 @@ while current_enemy.monster_hp > 0:
                 player_class.mana -= 20
             elif distance > 4:
                 print('Turn them to ash. Or try to, like you just did. You missed.')
+                print('You have dealt 0 damage.', player_class.mana, 'mana remains.',
+                      ' You have', player_class.class_hp, 'HP remaining. The enemy has', current_enemy.monster_hp,
+                      'HP remaining.')
                 player_class.mana -= 20
             elif player_class.mana < 20:
                 print('You don\'t have enough mana.')
     # Warrior
-    elif player_class == warrior:
-        if player_class.mana >= 10:
-            print('Your defenses are raised.')
-            guard = 3
-        elif player_class.mana < 10:
-            print('You don\'t have enough mana.')
+        elif player_class == warrior:
+            if player_class.mana >= 10:
+                print('Your defenses are raised.')
+                guard = 3
+            elif player_class.mana < 10:
+                print('You don\'t have enough mana.')
     # Rogue
-    else:
-        if distance <= 3 and player_class.mana >= 25:
-            print('They won\'t be catching you anytime soon.')
-            distance += 2
-            damage = player_class.class_attack * 2
-            player_class.mana -= 25
-        elif distance > 3 and player_class.mana >= 25:
-            print('They won\'t be catching you anytime soon. But you won\'t be catching them either with aim like that.')
-            distance += 2
-            player_class.mana -=25
-        elif player_class.mana < 25:
-            print('You don\'t have enough mana.')
+        else:
+            if distance <= 3 and player_class.mana >= 25:
+                print('They won\'t be catching you anytime soon.')
+                distance += 2
+                damage = player_class.class_attack * 2
+                print('You have dealt', damage, 'damage.', player_class.mana, 'mana remains.',
+                    ' You have', player_class.class_hp, 'HP remaining. The enemy has', current_enemy.monster_hp,
+                    'HP remaining.')
+                player_class.mana -= 25
+            elif distance > 3 and player_class.mana >= 25:
+                print('They won\'t be catching you anytime soon. But you won\'t be catching them either with aim like that.')
+                print('You have dealt 0 damage.', player_class.mana, 'mana remains.',
+                    ' You have', player_class.class_hp, 'HP remaining. The enemy has', current_enemy.monster_hp,
+                    'HP remaining.')
+                distance += 2
+                player_class.mana -=25
+            elif player_class.mana < 25:
+                print('You don\'t have enough mana.')
 
