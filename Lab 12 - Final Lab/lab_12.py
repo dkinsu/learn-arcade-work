@@ -77,6 +77,7 @@ def main():
           "\nIt would be wise to seek out someone who knows why.\nInput C for controls.")
     item_list = lab_12_items.populate_items()
     while not done:
+        # One time dialogue in town
         if lab_12_rooms.current_room == 8 and dialogue_flag == 0:
             print('\nYou must be the new hero. I\'m the town\'s chief guard. I\'ll fill you in on what\'s going on.\n'
                   'To the southeast, through the forest, is a fortress. A dragon inhabits it. That dragon\n'
@@ -87,7 +88,8 @@ def main():
                   'Countless heroes like yourself have tried to stop the dragon, but they never return...\n'
                   'If you wish to follow in their footsteps, take care in preparing yourself.')
             dialogue_flag = 1
-        elif lab_12_rooms.current_room == 11 and not cube_defeated:
+        # Battle 1 - Cube
+        elif lab_12_rooms.current_room == 1 and not cube_defeated:
             current_enemy = cube
             battle = True
         if not battle:
@@ -197,11 +199,12 @@ def main():
             # if all is well, set new room
             lab_12_rooms.current_room = lab_12_rooms.next_room
 
-            # Battle
-        else:
+            # ///////////////////////////////////////////////////// Battle /////////////////////////////////////////////////////
+        elif battle == True:
             while current_enemy.monster_hp > 0:
                 guard = 1
                 distance = 4
+                action = False
                 print('You are challenged by', current_enemy.monster_name, '!')
                 print('Combat commands: B: Basic attack, 1: Skill 1, 2: Skill 2, advance, retreat, wait')
                 while current_enemy.monster_hp > 0:
@@ -292,36 +295,38 @@ def main():
                         if player_class == wizard and player_class.mana >= 40:
                             player_class.class_attack *= 3
                             if player_class.class_attack < 30:
-                                print('Your mana amplifies your power. That\'s more like it.', player_class.mana,
-                                      'mana remains.')
+                                print('Your mana amplifies your power. That\'s more like it.')
                             elif player_class.class_attack > 30:
-                                print('Your strength is overflowing.', player_class.mana, 'mana remains.')
+                                print('Your strength is overflowing.')
                             elif player_class.class_attack > 100:
-                                print('This is excessive.', player_class.mana, 'mana remains.')
+                                print('This is excessive.')
                             player_class.mana -= 40
+                            print(player_class.mana, 'mana remains.')
                         elif player_class == wizard and player_class.mana < 40:
                             print('You don\'t have enough mana.')
 
                             # Warrior skill 1
                         elif player_class == warrior:
                             if distance <= 3 and player_class.mana >= 15:
-                                print('You swing your sword destructively.')
+                                print('You swing your sword destructively. The strike invigorates you.')
                                 damage = player_class.class_attack * 2
                                 current_enemy.monster_hp -= damage
+                                warrior.class_hp = warrior.class_hp + ((warrior.class_max_hp - warrior.class_hp) // 3)
                                 if current_enemy.monster_hp < 0:
                                     current_enemy.monster_hp = 0
-                                print('You have dealt', damage, 'damage.', player_class.mana, 'mana remains.',
+                                print('You have dealt', damage, 'damage.',
                                       ' You have', player_class.class_hp, 'HP remaining. The enemy has',
                                       current_enemy.monster_hp,
                                       'HP remaining.')
                                 player_class.mana -= 15
                             elif distance > 3 and player_class.mana >= 15:
                                 print('You swing your sword destructively... From too far away.')
-                                print('You have dealt 0 damage.', player_class.mana, 'mana remains.',
+                                print('You have dealt 0 damage.',
                                       ' You have', player_class.class_hp, 'HP remaining. The enemy has',
                                       current_enemy.monster_hp,
                                       'HP remaining.')
                                 player_class.mana -= 15
+                                print(player_class.mana, 'mana remains.')
                             elif player_class.mana < 15:
                                 print('You don\'t have enough mana.')
 
@@ -333,18 +338,20 @@ def main():
                                 current_enemy.monster_hp -= damage
                                 if current_enemy.monster_hp < 0:
                                     current_enemy.monster_hp = 0
-                                print('You have dealt', damage, 'damage.', player_class.mana, 'mana remains.',
+                                print('You have dealt', damage, 'damage.',
                                       ' You have', player_class.class_hp, 'HP remaining. The enemy has',
                                       current_enemy.monster_hp,
                                       'HP remaining.')
                                 player_class.mana -= 15
+                                print(player_class.mana, 'mana remains.')
                             elif distance > 1 and player_class.mana >= 15:
                                 print('They won\'t be prepared for this... But neither were you. You missed.')
-                                print('You have dealt 0 damage.', player_class.mana, 'mana remains.',
+                                print('You have dealt 0 damage.',
                                       ' You have', player_class.class_hp, 'HP remaining. The enemy has',
                                       current_enemy.monster_hp,
                                       'HP remaining.')
                                 player_class.mana -= 15
+                                print(player_class.mana, 'mana remains.')
                     # Skill 2
                     # Wizard skill 2
                     elif command_words[0] == '2':
@@ -355,18 +362,20 @@ def main():
                                 current_enemy.monster_hp -= damage
                                 if current_enemy.monster_hp < 0:
                                     current_enemy.monster_hp = 0
-                                print('You have dealt', damage, 'damage.', player_class.mana, 'mana remains.',
+                                print('You have dealt', damage, 'damage.',
                                       ' You have', player_class.class_hp, 'HP remaining. The enemy has',
                                       current_enemy.monster_hp,
                                       'HP remaining.')
                                 player_class.mana -= 20
+                                print(player_class.mana, 'mana remains.')
                             elif distance > 4:
                                 print('Turn them to ash. Or try to, like you just did. You missed.')
-                                print('You have dealt 0 damage.', player_class.mana, 'mana remains.',
+                                print('You have dealt 0 damage.',
                                       ' You have', player_class.class_hp, 'HP remaining. The enemy has',
                                       current_enemy.monster_hp,
                                       'HP remaining.')
                                 player_class.mana -= 20
+                                print(player_class.mana, 'mana remains.')
                             elif player_class.mana < 20:
                                 print('You don\'t have enough mana.')
                         # Warrior skill 2
@@ -374,8 +383,10 @@ def main():
                             if player_class.mana >= 10:
                                 print('Your defenses are raised.')
                                 guard = 3
+                                print(player_class.mana, 'mana remains.')
                             elif player_class.mana < 10:
                                 print('You don\'t have enough mana.')
+                                print(player_class.mana, 'mana remains.')
                         # Rogue skill 2
                         else:
                             if distance <= 3 and player_class.mana >= 25:
@@ -385,22 +396,25 @@ def main():
                                 current_enemy.monster_hp -= damage
                                 if current_enemy.monster_hp < 0:
                                     current_enemy.monster_hp = 0
-                                print('You have dealt', damage, 'damage.', player_class.mana, 'mana remains.',
+                                print('You have dealt', damage, 'damage.',
                                       ' You have', player_class.class_hp, 'HP remaining. The enemy has',
                                       current_enemy.monster_hp,
                                       'HP remaining.')
                                 player_class.mana -= 25
+                                print(player_class.mana, 'mana remains.')
                             elif distance > 3 and player_class.mana >= 25:
                                 print('They won\'t be catching you anytime soon. '
                                       'But you won\'t be catching them either with aim like that.')
-                                print('You have dealt 0 damage.', player_class.mana, 'mana remains.',
+                                print('You have dealt 0 damage.',
                                       ' You have', player_class.class_hp, 'HP remaining. The enemy has',
                                       current_enemy.monster_hp,
                                       'HP remaining.')
                                 distance += 2
                                 player_class.mana -= 25
+                                print(player_class.mana, 'mana remains.')
                             elif player_class.mana < 25:
                                 print('You don\'t have enough mana.')
+                                print(player_class.mana, 'mana remains.')
 
                     # Victory, ending battle
                     if current_enemy.monster_hp <= 0:
@@ -412,11 +426,6 @@ def main():
                             wizard.class_hp += 5
                             wizard.max_mana += 10
                             wizard.mana = wizard.max_mana
-                            if charm.room_number != OOP:
-                                wizard.class_attack = 5
-                            else:
-                                wizard.class_attack = 8
-
                             # Warrior regains 66% of missing HP on victory and gains more max HP
                         elif player_class == warrior:
                             warrior.mana = warrior.max_mana
@@ -426,7 +435,7 @@ def main():
                             # Rogue gets more max mana on victory
                             rogue.max_mana += 15
                             rogue.mana = rogue.max_mana
-
+                        break
                     else:
                         if distance > 1:
                             if distance >= 3:
