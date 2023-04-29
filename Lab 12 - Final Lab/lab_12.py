@@ -39,7 +39,7 @@ def main():
                                             'Fire a shot with a bow before performing evasive maneuvers. '
                                             'Creates distance. Costs 25 mana.')
 
-    cube = lab_12_combatants.Enemy('A BIG CUBE.', 'THE CUBE', 80, 'CUBIC CONTACT', 7,
+    cube = lab_12_combatants.Enemy('A BIG CUBE.', 'THE CUBE', 5, 'CUBIC CONTACT', 7,
                                    'CUBE HYPER STRIKE', 14, 'YOU ARE NO MATCH FOR THE CUBE.')
     long_swordsman = lab_12_combatants.Enemy('A warrior renowned for his height... '
                                              'though the size of his limbs is rather lacking.',
@@ -204,7 +204,6 @@ def main():
             while current_enemy.monster_hp > 0:
                 guard = 1
                 distance = 4
-                action = False
                 print('You are challenged by', current_enemy.monster_name, '!')
                 print('Combat commands: B: Basic attack, 1: Skill 1, 2: Skill 2, advance, retreat, wait')
                 while current_enemy.monster_hp > 0:
@@ -419,7 +418,6 @@ def main():
                     # Victory, ending battle
                     if current_enemy.monster_hp <= 0:
                         print('You have defeated', current_enemy.monster_name, '!')
-                        battle = False
                         # Wizard gains extra HP and mana on win
                         if player_class == wizard:
                             wizard.class_max_hp += 5
@@ -435,7 +433,7 @@ def main():
                             # Rogue gets more max mana on victory
                             rogue.max_mana += 15
                             rogue.mana = rogue.max_mana
-                        break
+                        battle = False
                     else:
                         if distance > 1:
                             if distance >= 3:
