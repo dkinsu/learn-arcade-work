@@ -16,7 +16,7 @@ def populate_items():
     mirror = Item(1, "A pocket mirror is lying on the ground. Get the mirror?", "mirror")
     item_list.append(mirror)
 
-    charm = Item(-2, 'A charm of some sort is present. '
+    charm = Item(-3, 'A charm of some sort is present. '
                      'Just standing near it makes you feel stronger. Get the charm?', 'charm')
     item_list.append(charm)
 

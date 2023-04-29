@@ -31,15 +31,15 @@ class Enemy:
         self.m_skill2_dmg = m_skill2_dmg
         self.m_taunt = m_taunt
 
-def main():
+"""def main():
     wizard = PlayerClass("A class that wields magic.\nPowerful ranged offense, weaker defense.",
                          "Wizard", 40, 40, 5, 60, 60, "Amplify", "Flare", 4,
-                         'Increases your attack power. Costs 40 mana.',
+                         'Triples your attack power for the duration of the battle. Can be used multiple times. Costs 40 mana.',
                          'Cause a fiery explosion. High damage. Costs 20 mana.')
 
     warrior = PlayerClass("A class that fights with heavy close ranged weapons.\nClose-ranged offense, strong defense.",
                           "Warrior", 60, 60, 8, 30, 30, "Cleave", "Guard", 2,
-                          'A long-reaching powerful swing. Costs 15 mana.',
+                          'A long-reaching powerful swing. Deals extra damage proportional to warrior\'s missing HP. Costs 15 mana.',
                           'Heavily reduces incoming damage. Costs 10 mana.')
 
     rogue = PlayerClass("A class that fights with melee and ranged weapons.\nVersatile offense, middling defense.",
@@ -293,5 +293,5 @@ def main():
                         dmg_received = enemy_damage // guard
                         player_class.class_hp -= dmg_received
                         print('You received', dmg_received, 'damage.')
-                        guard = 1
-main()
+                        guard = 1"""
+# main()
