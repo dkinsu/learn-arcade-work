@@ -20,12 +20,11 @@ class PlayerClass:
 
 
 class Enemy:
-    def __init__(self, monster_description, monster_name, monster_hp, monster_attack,
+    def __init__(self, monster_description, monster_name, monster_hp,
                  m_skill1, m_skill1_dmg, m_skill2, m_skill2_dmg, m_taunt):
         self.monster_description = monster_description
         self.monster_name = monster_name
         self.monster_hp = monster_hp
-        self.monster_attack = monster_attack
         self.m_skill1 = m_skill1
         self.m_skill1_dmg = m_skill1_dmg
         self.m_skill2 = m_skill2
@@ -48,7 +47,9 @@ def main():
                         'A devastating close-ranged attack. Poor range, heavy damage. Costs 15 mana.',
                         'Fire a shot with a bow before performing evasive maneuvers. Creates distance. Costs 25 mana.')
 
-    cube = Enemy('A BIG CUBE.', 'THE CUBE', 50, 7, 'CUBIC CONTACT', 7, 'CUBE HYPER STRIKE', 14, 'YOU ARE NO MATCH FOR THE CUBE.')
+    cube = Enemy('A BIG CUBE.', 'THE CUBE', 80, 'CUBIC CONTACT', 7, 'CUBE HYPER STRIKE', 14, 'YOU ARE NO MATCH FOR THE CUBE.')
+    long_swordsman = Enemy('A warrior renowned for his height... though the size of his limbs is rather lacking.',
+                           'The Long Warrior', 120, 'Straight punch', 12, '90-degree headbutt', 18, 'A shame. They could not match up to my height.')
 
     current_enemy = None
     player_class = None
@@ -102,7 +103,7 @@ def main():
 
         # Movement commands
         elif 'wait' in command_words:
-            print('You remain in place.')
+            print('You remain in place, recovering mana.')
             if player_class == wizard:
                 player_class.mana += 20
                 if player_class.mana > player_class.max_mana:
@@ -117,7 +118,7 @@ def main():
                 print('You\'re at point blank range.')
             else:
                 distance -= 1
-                print('You advanced one meter.')
+                print('You advanced one meter. Mana recovered.')
                 if player_class == rogue:
                     player_class.mana += 7
                     if player_class.mana > player_class.max_mana:
@@ -138,7 +139,7 @@ def main():
             else:
                 r_storage = 4
                 distance += r_storage
-            print('You retreated', r_storage, 'meters.')
+            print('You retreated', r_storage, 'meters. Mana recovered.')
             if player_class == rogue:
                 player_class.mana += 7
                 if player_class.mana > player_class.max_mana:

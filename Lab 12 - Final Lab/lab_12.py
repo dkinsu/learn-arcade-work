@@ -1,20 +1,16 @@
 import random
 import lab_12_rooms
 import lab_12_items
+# import lab_12_combatants
 
 # Inventory and out of play
 INV = -1
 OOP = -2
 
-class Item:
-    def __init__(self, room_number, i_description, i_name):
-        self.room_number = room_number
-        self.i_description = i_description
-        self.i_name = i_name
-
 
 class PlayerClass:
-    def __init__(self, player_description, class_name, class_hp, class_max_hp, class_attack, mana, max_mana, p_skill1, p_skill2, p_range,
+    def __init__(self, player_description, class_name, class_hp, class_max_hp, class_attack, mana,
+                 max_mana, p_skill1, p_skill2, p_range,
                  p_skill1_desc, p_skill2_desc):
         self.player_description = player_description
         self.class_name = class_name
@@ -75,11 +71,15 @@ def main():
     cube_defeated = 0
     long_defeated = 0
     dragon_defeated = 0
+    battle = False
     done = False
 
     flag = False
     player_class = None
     while not flag:
+        print(wizard.class_name, ':', wizard.player_description)
+        print(warrior.class_name, ':', warrior.player_description)
+        print(rogue.class_name, ':', rogue.player_description)
         class_select = input('What is your class of choice? ').lower()
         if 'wizard' in class_select:
             player_class = wizard
@@ -107,114 +107,112 @@ def main():
                   'Countless heroes like yourself have tried to stop the dragon, but they never return...\n'
                   'If you wish to follow in their footsteps, take care in preparing yourself.')
             dialogue_flag = 1
+        if not battle:
+            print('\n',lab_12_rooms.room_list[lab_12_rooms.current_room].description)
 
-        print('\n',lab_12_rooms.room_list[lab_12_rooms.current_room].description)
-
-        # item_list = lab_12_items.populate_items()
-        for item in item_list:
-            if item.room_number == lab_12_rooms.current_room:
-                print(item.i_description)
-        command_words = input("What is your command? ").lower().split(" ")
-
-        if command_words[0] == 'n':
-            lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].north
-
-        elif command_words[0] == 's':
-            lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].south
-
-        elif command_words[0] == 'e':
-            lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].east
-
-        elif command_words[0] == 'w':
-            lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].west
-
-        elif command_words[0] == 'd':
-            lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].down
-
-        elif command_words[0] == 'u':
-            lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].up
-
-        elif command_words[0] == 'c':
-            print('N, E, S, W, for cardinal directions, '
-                  'D, U, for down and up,\nI for inventory, '
-                  'get to retrieve items, drop to drop items, and u to use items.'
-                  'status for character status.\nQ to quit.')
-
-        elif 'get' in command_words:
-            found = False
             for item in item_list:
                 if item.room_number == lab_12_rooms.current_room:
-                    item.room_number = INV
-                    print('You retrieved the ', item.i_name, '.')
-                    found = True
-            if not found:
-                print('No items are present.')
+                    print(item.i_description)
+            command_words = input("What is your command? ").lower().split(" ")
 
-        elif 'status' in command_words:
-            print('You have', player_class.class_hp, 'health and ', player_class.mana, 'mana.'
-                  ' Your attack stat is', player_class.class_attack,'.')
+            if command_words[0] == 'n':
+                lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].north
 
-        elif command_words[0] == 'i':
-            found = False
-            for item in item_list:
-                if item.room_number == INV:
-                    print('Your inventory contains', item.i_name)
-                    found = True
-            if not found:
-                print('Your inventory is empty.')
+            elif command_words[0] == 's':
+                lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].south
 
-        elif 'drop' in command_words:
-            drop = input("What would you like to drop? ").lower()
+            elif command_words[0] == 'e':
+                lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].east
 
-            for i in range(len(item_list)):
-                if item_list[i].room_number == INV:
-                    if drop == item_list[i].i_name:
-                        item_list[i].room_number = lab_12_rooms.current_room
+            elif command_words[0] == 'w':
+                lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].west
 
-        elif 'use' in command_words:
-            use = input("What would you like to use? ").lower()
+            elif command_words[0] == 'd':
+                lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].down
 
-            for i in range(len(item_list)):
-                if item_list[i].room_number == INV:
-                    if use == item_list[i].i_name:
-                        if use == 'mirror':
-                            print('You look dashing.')
+            elif command_words[0] == 'u':
+                lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].up
 
-                        elif use == 'key':
-                            if lab_12_rooms.current_room == 12:
-                                print('The chest was opened, but the key broke in the process.')
-                                item_list[i].room_number = OOP
+            elif command_words[0] == 'c':
+                print('N, E, S, W, for cardinal directions, '
+                      'D, U, for down and up,\nI for inventory, '
+                      'get to retrieve items, drop to drop items, and u to use items.'
+                      'status for character status.\nQ to quit.')
+
+            elif 'get' in command_words:
+                found = False
+                for item in item_list:
+                    if item.room_number == lab_12_rooms.current_room:
+                        item.room_number = INV
+                        print('You retrieved the ', item.i_name, '.')
+                        found = True
+                if not found:
+                    print('No items are present.')
+
+            elif 'status' in command_words:
+                print('You have', player_class.class_hp, 'health and ', player_class.mana, 'mana.'
+                      ' Your attack stat is', player_class.class_attack,'.')
+
+            elif command_words[0] == 'i':
+                found = False
+                for item in item_list:
+                    if item.room_number == INV:
+                        print('Your inventory contains', item.i_name)
+                        found = True
+                if not found:
+                    print('Your inventory is empty.')
+
+            elif 'drop' in command_words:
+                drop = input("What would you like to drop? ").lower()
+
+                for i in range(len(item_list)):
+                    if item_list[i].room_number == INV:
+                        if drop == item_list[i].i_name:
+                            item_list[i].room_number = lab_12_rooms.current_room
+
+            elif 'use' in command_words:
+                use = input("What would you like to use? ").lower()
+
+                for i in range(len(item_list)):
+                    if item_list[i].room_number == INV:
+                        if use == item_list[i].i_name:
+                            if use == 'mirror':
+                                print('You look dashing.')
+
+                            elif use == 'key':
+                                if lab_12_rooms.current_room == 12:
+                                    print('The chest was opened, but the key broke in the process.')
+                                    item_list[i].room_number = OOP
+                                    charm = get_item(item_list, 'charm')
+                                    charm.room_number = 12
+
+                            elif use == 'charm':
+                                print('The charm is absorbed into your weapon. You\'ve gotten stronger.')
+                                player_class.class_attack += 3
                                 charm = get_item(item_list, 'charm')
-                                charm.room_number = 12
+                                charm.room_number = OOP
 
-                        elif use == 'charm':
-                            print('The charm is absorbed into your weapon. You\'ve gotten stronger.')
-                            player_class.class_attack += 3
-                            charm = get_item(item_list, 'charm')
-                            charm.room_number = OOP
+                            elif use == 'elixir':
+                                print('You\'ve been fully healed.')
+                                player_class.class_hp = player_class.class_max_hp
+                                elixir = get_item(item_list, 'elixir')
+                                elixir.room_number = OOP
 
-                        elif use == 'elixir':
-                            print('You\'ve been fully healed.')
-                            # hp = max_hp
-                            elixir = get_item(item_list, 'elixir')
-                            elixir.room_number = OOP
-                    else:
-                        print('You do not have that item.')
-        elif command_words[0] == 'q':
-            print("Game over.")
-            break
+            elif command_words[0] == 'q':
+                print("Game over.")
+                break
 
-        else:
-            print("Please give a valid command.")
-            continue
+            else:
+                print("Please give a valid command.")
+                continue
 
-        # check for valid choice
-        if lab_12_rooms.next_room == None:
-            print("You can't go that way!")
-            continue
+            # check for valid choice
+            if lab_12_rooms.next_room == None:
+                print("You can't go that way!")
+                continue
 
-        # if all is well, set new room
-        lab_12_rooms.current_room = lab_12_rooms.next_room
+            # if all is well, set new room
+            lab_12_rooms.current_room = lab_12_rooms.next_room
 
 
 main()
