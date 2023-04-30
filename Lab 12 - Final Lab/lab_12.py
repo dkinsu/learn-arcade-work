@@ -13,6 +13,9 @@ OOP = -2
 # Music
 exploration = arcade.load_sound('DS1_Char_Creation.mp3')
 exploration_player = exploration.play(0.5, 0, True)
+cube_fight = arcade.load_sound('Locked_Girl_TGSR.mp3')
+long_fight = arcade.load_sound('Lunar_Clock_Luna_Dial.mp3')
+dragon_fight = arcade.load_sound('Septette.mp3')
 
 
 # not in class!
@@ -105,15 +108,18 @@ def main():
             current_enemy = cube
             battle = True
             exploration_player.pause()
+            cube_fight_player = cube_fight.play(0.5, 0, True)
         # Battle 2 - Long warrior
         elif lab_12_rooms.current_room == 13 and not long_defeated:
             current_enemy = long_swordsman
             battle = True
             exploration_player.pause()
+            long_fight_player = long_fight.play(0.5, 0, True)
         elif lab_12_rooms.current_room == 15 and not dragon_defeated:
             current_enemy = dragon
             battle = True
             exploration_player.pause()
+            dragon_fight_player = dragon_fight.play(0.5, 0, True)
         if not battle:
             print('\n', lab_12_rooms.room_list[lab_12_rooms.current_room].description)
 
@@ -509,12 +515,15 @@ def main():
                             rogue.mana = rogue.max_mana
                         if current_enemy == cube:
                             cube_defeated = True
+                            arcade.stop_sound(cube_fight_player)
                             exploration_player.play()
                         elif current_enemy == long_swordsman:
                             long_defeated = True
+                            arcade.stop_sound(long_fight_player)
                             exploration_player.play()
                         elif current_enemy == dragon:
                             dragon_defeated = True
+                            arcade.stop_sound(dragon_fight_player)
                             exploration_player.play()
                         battle = False
                     else:
