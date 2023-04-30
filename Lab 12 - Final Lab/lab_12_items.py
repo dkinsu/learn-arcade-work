@@ -21,6 +21,7 @@ def populate_items():
                      'Just standing near it makes you feel stronger. Get the charm?', 'charm')
     item_list.append(charm)
 
-    dialogue_flag = Item(-2, 'flag for one-use dialogue line', 'd_flag')
-    item_list.append(dialogue_flag)
+    talisman = Item(14, 'A talisman of some sort is present. Just standing near it '
+                        'invigorates you. Get the talisman?', 'talisman')
+    item_list.append(talisman)
     return item_list

@@ -66,7 +66,7 @@ lake = Room('You stand on the edge of a lake. It is clearly not your typical bod
 room_list.append(lake)
 # Fortress Entrance - 11
 f_entrance = Room('You\'ve arrived at the entrance of a fortress. '
-                  'You can enter the gate by continuing east, or try to scale the wall.'
+                  'You can enter the gate by continuing east, or try to scale the wall. '
                   'The forest is to the west.', None, 13, None, 9, None, 14)
 room_list.append(f_entrance)
 # Lake portal - 12
@@ -74,3 +74,15 @@ l_portal = Room('Entering the lake has left you in a small room. '
                 'There is a treasure chest present. It requires a key. '
                 'You can return to the surface.', None, None, None, None, None, 10)
 room_list.append(l_portal)
+# Fortress - 13
+fortress = Room('You\'ve entered the fortress. You can tell that a powerful being resides within. '
+                'There are stairs, downward into the main chamber. You can also return to the entrance in the west.', None, None, None, 11, 15, None)
+room_list.append(fortress)
+# Fortress wall - 14
+f_wall = Room('You stand on the wall of the fortress. You can climb back down to the entrance.', None, None, None, None, 11, None)
+room_list.append(f_wall)
+# Fortress chamber - 15
+chamber = Room('You are in the main chamber of the fortress. '
+               'The battle with the dragon has left the room a charred mess. '
+               'You can go up the stairs.', None, None, None, None, None, 13)
+room_list.append(chamber)

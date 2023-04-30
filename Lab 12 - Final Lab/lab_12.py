@@ -184,6 +184,13 @@ def main():
                                 elixir = get_item(item_list, 'elixir')
                                 elixir.room_number = OOP
 
+                            elif use == 'talisman':
+                                player_class.class_max_hp += 5
+                                player_class.class_hp = player_class.class_max_hp
+                                print('You\'ve been fully healed, and your max HP increased. Max HP is now', player_class.class_max_hp, '.')
+                                talisman = get_item(item_list, 'talisman')
+                                talisman.room_number = OOP
+
             elif command_words[0] == 'q':
                 print("Game over.")
                 break
