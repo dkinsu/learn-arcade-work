@@ -45,6 +45,8 @@ def main():
                                              'though the size of his limbs is rather lacking.',
                                               'The Long Warrior', 1, 'Straight punch', 12, '90-degree headbutt', 18,
                                               'A shame. They could not match up to my height.')
+    dragon = lab_12_combatants.Enemy('The guardian of the village. Something is controlling the dragon\'s behavior.', 'The Dragon',
+                                     1, 'Flame Breath', 12, 'Wrathful Claw', 25, 'You were mighty... But not mighty enough.')
     # item_list = []
     dialogue_flag = 0
     cube_defeated = False
@@ -95,6 +97,9 @@ def main():
         # Battle 2 - Long warrior
         elif lab_12_rooms.current_room == 13 and not long_defeated:
             current_enemy = long_swordsman
+            battle = True
+        elif lab_12_rooms.current_room == 15 and not dragon_defeated:
+            current_enemy = dragon
             battle = True
         if not battle:
             print('\n', lab_12_rooms.room_list[lab_12_rooms.current_room].description)
@@ -414,6 +419,8 @@ def main():
                                     print('Your defenses are raised. You gain 10 mana.')
                                     guard = 3
                                     player_class.mana += 10
+                                    if player_class.mana > player_class.max_mana:
+                                        player_class.mana = player_class.max_mana
                                     print(player_class.mana, 'mana remains.')
                                     action = True
                                 elif player_class.mana < 10:
@@ -477,6 +484,8 @@ def main():
                             cube_defeated = True
                         elif current_enemy == long_swordsman:
                             long_defeated = True
+                        elif current_enemy == dragon:
+                            dragon_defeated = True
                         battle = False
                     else:
                         if distance > 1:
