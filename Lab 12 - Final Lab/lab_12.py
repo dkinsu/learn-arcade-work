@@ -224,7 +224,8 @@ def main():
                 distance = 4
                 action = False
                 print('You are challenged by', current_enemy.monster_name, '!')
-                print('Combat commands: B: Basic attack, 1: Skill 1, 2: Skill 2, advance, retreat, wait')
+                print('Combat commands: B: Basic attack, 1: Skill 1, 2: Skill 2, advance, retreat, wait, status')
+                print('Input controls to show commands.')
                 while current_enemy.monster_hp > 0:
                     if player_class.class_hp <= 0:
                         print(current_enemy.m_taunt, '\n You were defeated. Game over.')
@@ -291,6 +292,12 @@ def main():
                                 print('You advanced one meter. Mana recovered.', player_class.mana, 'mana remains.',
                                       ' Your HP is', player_class.class_hp, '.')
                                 action = True
+                        elif 'status' in command_words:
+                            print('You have', player_class.class_hp, 'HP and', player_class.mana, 'Mana. '
+                                    'The enemy has', current_enemy.monster_hp, 'HP. You are', distance, 'meters from the enemy. '
+                                    'Your enemy is', current_enemy.monster_name, '.\n', current_enemy.monster_description)
+                        elif 'controls' in command_words:
+                            print('Combat commands: B: Basic attack, 1: Skill 1, 2: Skill 2, advance, retreat, wait')
 
                         elif 'retreat' in command_words:
                             retreat_roll = random.randrange(0, 7)
