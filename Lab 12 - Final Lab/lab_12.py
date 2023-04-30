@@ -29,7 +29,7 @@ def main():
                                             "Warrior", 60, 60, 8, 30, 30, "Invigorating Cleave", "Guard", 2,
                                             'A long-reaching powerful swing. Deals extra damage proportional to '
                                             'warrior\'s missing HP, and returns 33% of warrior\'s missing HP. Costs 15 mana.',
-                                            'Heavily reduces incoming damage. Costs 10 mana.')
+                                            'Heavily reduces incoming damage. Requires 10 mana to use, but restores 10 mana.')
 
     rogue = lab_12_combatants.PlayerClass("A class that fights with melee and ranged weapons."
                                           "\nVersatile offense, middling defense.",
@@ -43,7 +43,7 @@ def main():
                                    'CUBE HYPER STRIKE', 14, 'YOU ARE NO MATCH FOR THE CUBE.')
     long_swordsman = lab_12_combatants.Enemy('A warrior renowned for his height... '
                                              'though the size of his limbs is rather lacking.',
-                                              'The Long Warrior', 120, 'Straight punch', 12, '90-degree headbutt', 18,
+                                              'The Long Warrior', 1, 'Straight punch', 12, '90-degree headbutt', 18,
                                               'A shame. They could not match up to my height.')
     # item_list = []
     dialogue_flag = 0
@@ -57,9 +57,9 @@ def main():
     player_class = None
     current_enemy = None
     while not flag:
-        print(wizard.class_name, ':', wizard.player_description)
         print(warrior.class_name, ':', warrior.player_description)
         print(rogue.class_name, ':', rogue.player_description)
+        print(wizard.class_name, ':', wizard.player_description)
         class_select = input('What is your class of choice? ').lower()
         if 'wizard' in class_select:
             player_class = wizard
@@ -89,10 +89,13 @@ def main():
                   'If you wish to follow in their footsteps, take care in preparing yourself.')
             dialogue_flag = 1
         # Battle 1 - Cube
-        elif lab_12_rooms.current_room == 1 and not cube_defeated:
+        elif lab_12_rooms.current_room == 11 and not cube_defeated:
             current_enemy = cube
             battle = True
         # Battle 2 - Long warrior
+        elif lab_12_rooms.current_room == 13 and not long_defeated:
+            current_enemy = long_swordsman
+            battle = True
         if not battle:
             print('\n', lab_12_rooms.room_list[lab_12_rooms.current_room].description)
 
@@ -168,7 +171,9 @@ def main():
                             elif use == 'key':
                                 if lab_12_rooms.current_room == 12:
                                     print('The chest was opened, but the key broke in the process.')
-                                    item_list[i].room_number = OOP
+                                    key = get_item(item_list, 'key')
+                                    # item_list[i].room_number = OOP
+                                    key.room_number = OOP
                                     charm = get_item(item_list, 'charm')
                                     charm.room_number = 12
 
@@ -406,8 +411,9 @@ def main():
                             # Warrior skill 2
                             elif player_class == warrior:
                                 if player_class.mana >= 10:
-                                    print('Your defenses are raised.')
+                                    print('Your defenses are raised. You gain 10 mana.')
                                     guard = 3
+                                    player_class.mana += 10
                                     print(player_class.mana, 'mana remains.')
                                     action = True
                                 elif player_class.mana < 10:
@@ -469,6 +475,8 @@ def main():
                             rogue.mana = rogue.max_mana
                         if current_enemy == cube:
                             cube_defeated = True
+                        elif current_enemy == long_swordsman:
+                            long_defeated = True
                         battle = False
                     else:
                         if distance > 1:
