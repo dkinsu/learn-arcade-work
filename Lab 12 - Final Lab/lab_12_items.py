@@ -24,4 +24,6 @@ def populate_items():
     talisman = Item(14, 'A talisman of some sort is present. Just standing near it '
                         'invigorates you. Get the talisman?', 'talisman')
     item_list.append(talisman)
+    blessing = Item(15, 'The dragon offers you its blessing. Get blessing?', 'blessing')
+    item_list.append(blessing)
     return item_list

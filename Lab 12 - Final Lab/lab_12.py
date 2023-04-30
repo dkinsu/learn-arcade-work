@@ -66,9 +66,10 @@ def main():
                                      1, 'Flame Breath', 12, 'Wrathful Claw', 25, 'You were mighty... But not mighty enough.')
     fiend = lab_12_combatants.Enemy('The being terrorizing the village.\nIt has been empowered by defeated heroes.',
                                     'Underworld Fiend', 1, 'Wrath', 17, 'Siphon', 7, 'And with this... None will be able to rival me again!')
-    # item_list = []
-    dialogue_flag = 0
-    fiend_dialogue = 0
+    # encounter flags
+    dialogue_flag = False
+    fiend_dialogue = False
+    dragon_dialogue = False
     cube_defeated = False
     long_defeated = False
     dragon_defeated = False
@@ -101,10 +102,8 @@ def main():
     # arcade.play_sound(exploration, 0.6, 0, True, 1)
     item_list = lab_12_items.populate_items()
     while not done:
-        # Exploration Music
-        # arcade.play_sound(exploration, 0.8)
-        # One time dialogue in town
-        if lab_12_rooms.current_room == 8 and dialogue_flag == 0:
+        # One time dialogue
+        if lab_12_rooms.current_room == 8 and not dialogue_flag:
             print('\n Guard: \"You must be the new hero. I\'m the town\'s chief guard. I\'ll fill you in on what\'s going on.\n'
                   'To the southeast, through the forest, is a fortress. A dragon inhabits it. That dragon\n'
                   'used to protect us, but now it antagonizes the village...\n'
@@ -113,8 +112,16 @@ def main():
                   'Those who cannot protect themselves must die. That is the dragon\'s doctrine.\n'
                   'Countless heroes like yourself have tried to stop the dragon, but they never return...\n'
                   'If you wish to follow in their footsteps, take care in preparing yourself.\"')
-            dialogue_flag = 1
-        if lab_12_rooms.current_room == 8 and fiend_dialogue == 0 and dragon_defeated:
+            dialogue_flag = True
+
+        # Post Dragon fight dialogue
+        if lab_12_rooms.current_room == 15 and dragon_defeated and not dragon_dialogue:
+            print('\n As you defeated the dragon, the ring on its claw fell off. The dragon crushes the ring underfoot.'
+                  '\n Dragon:\"Thank you, hero. That ring was controlling me. It was the work of the village mayor.'
+                   '\n He has been leading heroes to fight me, to be killed as tribute for a demon.'
+                  '\n You must return to the village, and stop the demon.\"')
+            dragon_dialogue = True
+        if lab_12_rooms.current_room == 8 and not fiend_dialogue and dragon_defeated:
             print('\nFollowing the advice of the dragon, you confront the mayor.')
             print('\n', player_class.class_name, ': \"Why are you sacrificing the heroes who come to help your village?\"')
             print('\n', 'Mayor: \"The demon threatened our village. It asked for strong sacrifices, so the heroes were lead to fight the dragon. '
@@ -128,6 +135,16 @@ def main():
                                             'that demon stronger. \nYou\'ve forsaken both the lives of those who fight to protect you, '
                                             'and the people of the village. Now, show me the way, so I can correct your mistakes.')
             print('\nMayor: \"It inhabits the graveyard to the north. Good luck...')
+            fiend_dialogue = True
+
+        if fiend_defeated:
+            print('\n You have defeated the underworld fiend. Peace has returned to the village.'
+                  '\n The mayor was imprisoned for his crimes, and replaced by the guard captain.'
+                  '\n The dragon became the guardian of the village once more.'
+                  '\n As for the', player_class.class_name, ', it is the duty of heroes to protect those in need.'
+                  '\n The job does not end. Go forth, and live up to your name.')
+            done = True
+            break
         # Battle 1 - Cube
         elif lab_12_rooms.current_room == 11 and not cube_defeated:
             current_enemy = cube
@@ -152,6 +169,7 @@ def main():
             battle = True
             exploration_player.pause()
             fiend_fight_player = fiend_fight.play(0.5, 0, True)
+
         if not battle:
             print('\n', lab_12_rooms.room_list[lab_12_rooms.current_room].description)
 
@@ -251,6 +269,13 @@ def main():
                                 print('You\'ve been fully healed, and your max HP increased. Max HP is now', player_class.class_max_hp, '.')
                                 talisman = get_item(item_list, 'talisman')
                                 talisman.room_number = OOP
+                            elif use == 'blessing':
+                                player_class.class_max_hp += 5
+                                player_class.class_attack += 2
+                                player_class.max_mana += 5
+                                print('The dragon\'s blessing empowers you. All stats have increased.')
+                                blessing = get_item(item_list, 'blessing')
+                                blessing.room_number = OOP
 
             elif command_words[0] == 'q':
                 print("Game over.")
@@ -533,9 +558,12 @@ def main():
                             wizard.max_mana += 10
                             wizard.mana = wizard.max_mana
                             charm = get_item(item_list, 'charm')
-                            if charm.room_number != OOP:
-                                wizard.class_attack = 5
-                            else: wizard.class_attack = 8
+                            blessing = get_item(item_list, 'blessing')
+                            wizard.class_attack = 5
+                            if charm.room_number == OOP:
+                                wizard.class_attack += 3
+                            if blessing.room_number == OOP:
+                                wizard.class_attack += 2
                             # Warrior regains 66% of missing HP on victory and gains more max HP
                         elif player_class == warrior:
                             warrior.mana = warrior.max_mana
@@ -560,6 +588,7 @@ def main():
                         elif current_enemy == fiend:
                             fiend_defeated = True
                             arcade.stop_sound(fiend_fight_player)
+                            print('\n', player_class.class_name, ': \"May those who were sacrificed rest in peace.')
                         battle = False
                     else:
                         # Enemy Movement
