@@ -26,16 +26,16 @@ def main():
 
     warrior = lab_12_combatants.PlayerClass("A class that fights with heavy close ranged weapons."
                                             "\nClose-ranged offense, strong defense.",
-                                            "Warrior", 60, 60, 8, 30, 30, "Cleave", "Guard", 2,
+                                            "Warrior", 60, 60, 8, 30, 30, "Invigorating Cleave", "Guard", 2,
                                             'A long-reaching powerful swing. Deals extra damage proportional to '
-                                            'warrior\'s missing HP. Costs 15 mana.',
+                                            'warrior\'s missing HP, and returns 33% of warrior\'s missing HP. Costs 15 mana.',
                                             'Heavily reduces incoming damage. Costs 10 mana.')
 
     rogue = lab_12_combatants.PlayerClass("A class that fights with melee and ranged weapons."
                                           "\nVersatile offense, middling defense.",
                                             'Rogue', 50, 50, 10, 45, 45, "Lacerate", "Retreating Shot", 1,
                                             'A devastating close-ranged attack. Poor range,'
-                                            ' heavy damage. Costs 15 mana.',
+                                            ' heavy damage. Halves the damage the next enemy attack. Costs 15 mana.',
                                             'Fire a shot with a bow before performing evasive maneuvers. '
                                             'Creates distance. Costs 25 mana.')
 
@@ -325,7 +325,7 @@ def main():
                             elif player_class == warrior:
                                 if distance <= 3 and player_class.mana >= 15:
                                     print('You swing your sword destructively. The strike invigorates you.')
-                                    damage = player_class.class_attack * 2
+                                    damage = player_class.class_attack * (warrior.class_max_hp // warrior.class_hp)
                                     current_enemy.monster_hp -= damage
                                     warrior.class_hp = warrior.class_hp + ((warrior.class_max_hp - warrior.class_hp) // 3)
                                     if current_enemy.monster_hp < 0:
@@ -360,6 +360,7 @@ def main():
                                           ' You have', player_class.class_hp, 'HP remaining. The enemy has',
                                           current_enemy.monster_hp,
                                           'HP remaining.')
+                                    guard = 2
                                     player_class.mana -= 15
                                     print(player_class.mana, 'mana remains.')
                                     action = True
