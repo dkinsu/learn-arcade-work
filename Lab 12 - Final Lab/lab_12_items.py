@@ -15,7 +15,8 @@ def populate_items():
 
     mirror = Item(1, "A pocket mirror is lying on the ground. Get the mirror?", "mirror")
     item_list.append(mirror)
-
+    """Charm is set to -3 instead of -2, the typical out of play value. 
+    This is for the sake of setting wizard's attack properly post-battle."""
     charm = Item(-3, 'A charm of some sort is present. '
                      'Just standing near it makes you feel stronger. Get the charm?', 'charm')
     item_list.append(charm)

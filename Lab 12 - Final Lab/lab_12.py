@@ -89,9 +89,10 @@ def main():
                   'If you wish to follow in their footsteps, take care in preparing yourself.')
             dialogue_flag = 1
         # Battle 1 - Cube
-        elif lab_12_rooms.current_room == 1 and not cube_defeated:
+        elif lab_12_rooms.current_room == 11 and not cube_defeated:
             current_enemy = cube
             battle = True
+        # Battle 2 - Long warrior
         if not battle:
             print('\n', lab_12_rooms.room_list[lab_12_rooms.current_room].description)
 
@@ -424,6 +425,10 @@ def main():
                             wizard.class_hp += 5
                             wizard.max_mana += 10
                             wizard.mana = wizard.max_mana
+                            charm = get_item(item_list, 'charm')
+                            if charm.room_number != OOP:
+                                wizard.class_attack = 5
+                            else: wizard.class_attack = 8
                             # Warrior regains 66% of missing HP on victory and gains more max HP
                         elif player_class == warrior:
                             warrior.mana = warrior.max_mana
@@ -433,6 +438,8 @@ def main():
                             # Rogue gets more max mana on victory
                             rogue.max_mana += 15
                             rogue.mana = rogue.max_mana
+                        if current_enemy == cube:
+                            cube_defeated = True
                         battle = False
                     else:
                         if distance > 1:
