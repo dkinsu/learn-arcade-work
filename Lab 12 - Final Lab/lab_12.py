@@ -56,16 +56,16 @@ def main():
                                             'Fire a shot with a bow before performing evasive maneuvers. '
                                             'Creates distance. Costs 25 mana.')
 
-    cube = lab_12_combatants.Enemy('A BIG CUBE.', 'THE CUBE', 5, 'CUBIC CONTACT', 7,
+    cube = lab_12_combatants.Enemy('A BIG CUBE.', 'THE CUBE', 80, 'CUBIC CONTACT', 7,
                                    'CUBE HYPER STRIKE', 14, 'YOU ARE NO MATCH FOR THE CUBE.')
     long_swordsman = lab_12_combatants.Enemy('A warrior renowned for his height... '
                                              'though the size of his limbs is rather lacking.',
-                                              'The Long Warrior', 1, 'Straight punch', 12, '90-degree headbutt', 18,
+                                              'The Long Warrior', 120, 'Straight punch', 12, '90-degree headbutt', 18,
                                               'A shame. They could not match up to my height.')
     dragon = lab_12_combatants.Enemy('The guardian of the village. Something is controlling the dragon\'s behavior.', 'The Dragon',
-                                     1, 'Flame Breath', 12, 'Wrathful Claw', 25, 'You were mighty... But not mighty enough.')
+                                     250, 'Flame Breath', 12, 'Wrathful Claw', 25, 'You were mighty... But not mighty enough.')
     fiend = lab_12_combatants.Enemy('The being terrorizing the village.\nIt has been empowered by defeated heroes.',
-                                    'Underworld Fiend', 1, 'Wrath', 17, 'Siphon', 7, 'And with this... None will be able to rival me again!')
+                                    'Underworld Fiend', 300, 'Wrath', 17, 'Siphon', 7, 'And with this... None will be able to rival me again!')
     # encounter flags
     dialogue_flag = False
     fiend_dialogue = False
