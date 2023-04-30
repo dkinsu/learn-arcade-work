@@ -1,4 +1,7 @@
 import random
+import arcade
+
+# import lab_12_sounds
 import lab_12_rooms
 import lab_12_items
 import lab_12_combatants
@@ -6,6 +9,10 @@ import lab_12_combatants
 # Inventory and out of play
 INV = -1
 OOP = -2
+
+# Music
+exploration = arcade.load_sound('DS1_Char_Creation.mp3')
+exploration_player = exploration.play(0.5, 0, True)
 
 
 # not in class!
@@ -75,10 +82,13 @@ def main():
         else:
             print('Please select a valid class.')
 
-    print("You have awoken from what feels like years of sleep. You are currently in a mansion."
+    print("\nYou have awoken from what feels like years of sleep. You are currently in a mansion."
           "\nIt would be wise to seek out someone who knows why.\nInput C for controls.")
+    # arcade.play_sound(exploration, 0.6, 0, True, 1)
     item_list = lab_12_items.populate_items()
     while not done:
+        # Exploration Music
+        # arcade.play_sound(exploration, 0.8)
         # One time dialogue in town
         if lab_12_rooms.current_room == 8 and dialogue_flag == 0:
             print('\nYou must be the new hero. I\'m the town\'s chief guard. I\'ll fill you in on what\'s going on.\n'
@@ -91,9 +101,10 @@ def main():
                   'If you wish to follow in their footsteps, take care in preparing yourself.')
             dialogue_flag = 1
         # Battle 1 - Cube
-        elif lab_12_rooms.current_room == 11 and not cube_defeated:
+        elif lab_12_rooms.current_room == 1 and not cube_defeated:
             current_enemy = cube
             battle = True
+            arcade.stop_sound(exploration_player)
         # Battle 2 - Long warrior
         elif lab_12_rooms.current_room == 13 and not long_defeated:
             current_enemy = long_swordsman
@@ -203,7 +214,8 @@ def main():
 
             elif command_words[0] == 'q':
                 print("Game over.")
-                break
+                done = True
+
 
             else:
                 print("Please give a valid command.")
@@ -219,7 +231,7 @@ def main():
 
             # ///////////////////////////////////////////////////// Battle /////////////////////////////////////////////////////
         elif battle == True:
-            while current_enemy.monster_hp > 0:
+            while current_enemy.monster_hp > 0 and player_class.class_hp > 0:
                 guard = 1
                 distance = 4
                 action = False
@@ -229,7 +241,13 @@ def main():
                 while current_enemy.monster_hp > 0:
                     if player_class.class_hp <= 0:
                         print(current_enemy.m_taunt, '\n You were defeated. Game over.')
+                        battle = False
+                        cube_defeated = True
+                        long_defeated = True
+                        dragon_defeated = True
+                        done = True
                         break
+
                     print(current_enemy.monster_name, 'is ', distance, 'meters away.')
                     # command_words = input("What is your command? ").lower().split(" ")
                     while not action:
