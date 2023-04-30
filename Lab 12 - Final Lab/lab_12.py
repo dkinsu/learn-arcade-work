@@ -101,17 +101,19 @@ def main():
                   'If you wish to follow in their footsteps, take care in preparing yourself.')
             dialogue_flag = 1
         # Battle 1 - Cube
-        elif lab_12_rooms.current_room == 1 and not cube_defeated:
+        elif lab_12_rooms.current_room == 11 and not cube_defeated:
             current_enemy = cube
             battle = True
-            arcade.stop_sound(exploration_player)
+            exploration_player.pause()
         # Battle 2 - Long warrior
         elif lab_12_rooms.current_room == 13 and not long_defeated:
             current_enemy = long_swordsman
             battle = True
+            exploration_player.pause()
         elif lab_12_rooms.current_room == 15 and not dragon_defeated:
             current_enemy = dragon
             battle = True
+            exploration_player.pause()
         if not battle:
             print('\n', lab_12_rooms.room_list[lab_12_rooms.current_room].description)
 
@@ -507,10 +509,13 @@ def main():
                             rogue.mana = rogue.max_mana
                         if current_enemy == cube:
                             cube_defeated = True
+                            exploration_player.play()
                         elif current_enemy == long_swordsman:
                             long_defeated = True
+                            exploration_player.play()
                         elif current_enemy == dragon:
                             dragon_defeated = True
+                            exploration_player.play()
                         battle = False
                     else:
                         # Enemy Movement
