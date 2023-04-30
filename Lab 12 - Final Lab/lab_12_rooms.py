@@ -54,7 +54,7 @@ town_road = Room('You are on the road to a nearby town. The town is to the north
 room_list.append(town_road)
 # Town - 8
 town = Room('You have entered the town. The atmosphere is friendly. '
-            'there is a road to the south. ', None, None, 7, None, None, None)
+            'The graveyard is to the north, and there is a road to the south. ', 16, None, 7, None, None, None)
 room_list.append(town)
 # Forest - 9
 forest = Room('You stand at the outskirts of the forest. You feel uneasy. '
@@ -86,3 +86,6 @@ chamber = Room('You are in the main chamber of the fortress. '
                'The battle with the dragon has left the room a charred mess. '
                'You can go up the stairs.', None, None, None, None, None, 13)
 room_list.append(chamber)
+# Graveyard - 16
+graveyard = Room('The town graveyard. There is nothing here. You can return south.', None, None, 8, None, None, None)
+room_list.append(graveyard)

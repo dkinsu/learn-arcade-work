@@ -14,17 +14,18 @@ OOP = -2
 # Character creation theme from Dark Souls
 exploration = arcade.load_sound('DS1_Char_Creation.mp3')
 exploration_player = exploration.play(0.5, 0, True)
+
 # Locked Girl - The Girl's Secret Room - From Touhou 6 EoSD
 cube_fight = arcade.load_sound('Locked_Girl_TGSR.mp3')
+
 # The Maid and the Pocket Watch of Blood - From Touhou 6 EoSD
 long_fight = arcade.load_sound('mapwb.mp3')
+
 # Septette for the Dead Princess - From Touhou 6 EoSD
 dragon_fight = arcade.load_sound('Septette.mp3')
+
 # Lunar Clock - Luna Dial - From Touhou 6 EoSD
-necro_fight = arcade.load_sound('Lunar_Clock_Luna_Dial.mp3')
-
-
-# not in class!
+fiend_fight = arcade.load_sound('Lunar_Clock_Luna_Dial.mp3')
 
 
 def get_item(item_list, name):
@@ -63,12 +64,15 @@ def main():
                                               'A shame. They could not match up to my height.')
     dragon = lab_12_combatants.Enemy('The guardian of the village. Something is controlling the dragon\'s behavior.', 'The Dragon',
                                      1, 'Flame Breath', 12, 'Wrathful Claw', 25, 'You were mighty... But not mighty enough.')
+    fiend = lab_12_combatants.Enemy('The being terrorizing the village.\nIt has been empowered by defeated heroes.',
+                                    'Underworld Fiend', 1, 'Wrath', 17, 'Siphon', 7, 'And with this... None will be able to rival me again!')
     # item_list = []
     dialogue_flag = 0
+    fiend_dialogue = 0
     cube_defeated = False
     long_defeated = False
     dragon_defeated = False
-    necro_defeated = False
+    fiend_defeated = False
     battle = False
     done = False
 
@@ -101,15 +105,29 @@ def main():
         # arcade.play_sound(exploration, 0.8)
         # One time dialogue in town
         if lab_12_rooms.current_room == 8 and dialogue_flag == 0:
-            print('\nYou must be the new hero. I\'m the town\'s chief guard. I\'ll fill you in on what\'s going on.\n'
+            print('\n Guard: \"You must be the new hero. I\'m the town\'s chief guard. I\'ll fill you in on what\'s going on.\n'
                   'To the southeast, through the forest, is a fortress. A dragon inhabits it. That dragon\n'
                   'used to protect us, but now it antagonizes the village...\n'
                   'I don\'t know what caused it to change, but as of now,\n'
                   'it believes that only the strong have a right to live.\n'
                   'Those who cannot protect themselves must die. That is the dragon\'s doctrine.\n'
                   'Countless heroes like yourself have tried to stop the dragon, but they never return...\n'
-                  'If you wish to follow in their footsteps, take care in preparing yourself.')
+                  'If you wish to follow in their footsteps, take care in preparing yourself.\"')
             dialogue_flag = 1
+        if lab_12_rooms.current_room == 8 and fiend_dialogue == 0 and dragon_defeated:
+            print('\nFollowing the advice of the dragon, you confront the mayor.')
+            print('\n', player_class.class_name, ': \"Why are you sacrificing the heroes who come to help your village?\"')
+            print('\n', 'Mayor: \"The demon threatened our village. It asked for strong sacrifices, so the heroes were lead to fight the dragon. '
+                  'It was to protect the people who live here!\"')
+            if player_class == warrior:
+                print('\n', player_class.class_name, ': \"Cowardly and foolish. Lead me to the fiend and I will destroy it. I will enact the will of the sacrificed heroes.')
+            elif player_class == rogue:
+                print('\n', player_class.class_name, ': \"Fool. Show me the way. I will protect the village properly.')
+            else:
+                print('\n', player_class.class_name,': \"You were deceived. You aren\'t sacrificing heroes to protect the people, it\'s just making'
+                                            'that demon stronger. \nYou\'ve forsaken both the lives of those who fight to protect you, '
+                                            'and the people of the village. Now, show me the way, so I can correct your mistakes.')
+            print('\nMayor: \"It inhabits the graveyard to the north. Good luck...')
         # Battle 1 - Cube
         elif lab_12_rooms.current_room == 11 and not cube_defeated:
             current_enemy = cube
@@ -122,11 +140,18 @@ def main():
             battle = True
             exploration_player.pause()
             long_fight_player = long_fight.play(0.5, 0, True)
+        # Battle 3 - Dragon
         elif lab_12_rooms.current_room == 15 and not dragon_defeated:
             current_enemy = dragon
             battle = True
             exploration_player.pause()
             dragon_fight_player = dragon_fight.play(0.5, 0, True)
+        # Final Battle - Fiend
+        elif lab_12_rooms.current_room == 16 and dragon_defeated and not fiend_defeated:
+            current_enemy = fiend
+            battle = True
+            exploration_player.pause()
+            fiend_fight_player = fiend_fight.play(0.5, 0, True)
         if not battle:
             print('\n', lab_12_rooms.room_list[lab_12_rooms.current_room].description)
 
@@ -532,6 +557,9 @@ def main():
                             dragon_defeated = True
                             arcade.stop_sound(dragon_fight_player)
                             exploration_player.play()
+                        elif current_enemy == fiend:
+                            fiend_defeated = True
+                            arcade.stop_sound(fiend_fight_player)
                         battle = False
                     else:
                         # Enemy Movement
@@ -583,5 +611,8 @@ def main():
                                     if current_enemy == dragon:
                                         print('The dragon\'s claws sunder your defenses.')
                                         guard = 0.5
+                                    elif current_enemy == fiend:
+                                        print('The fiend\'s magic steals your life.')
+                                        current_enemy.monster_hp += 3
                                     action = False
 main()
