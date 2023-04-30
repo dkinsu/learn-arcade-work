@@ -11,11 +11,17 @@ INV = -1
 OOP = -2
 
 # Music
+# Character creation theme from Dark Souls
 exploration = arcade.load_sound('DS1_Char_Creation.mp3')
 exploration_player = exploration.play(0.5, 0, True)
+# Locked Girl - The Girl's Secret Room - From Touhou 6 EoSD
 cube_fight = arcade.load_sound('Locked_Girl_TGSR.mp3')
-long_fight = arcade.load_sound('Lunar_Clock_Luna_Dial.mp3')
+# The Maid and the Pocket Watch of Blood - From Touhou 6 EoSD
+long_fight = arcade.load_sound('mapwb.mp3')
+# Septette for the Dead Princess - From Touhou 6 EoSD
 dragon_fight = arcade.load_sound('Septette.mp3')
+# Lunar Clock - Luna Dial - From Touhou 6 EoSD
+necro_fight = arcade.load_sound('Lunar_Clock_Luna_Dial.mp3')
 
 
 # not in class!
@@ -62,6 +68,7 @@ def main():
     cube_defeated = False
     long_defeated = False
     dragon_defeated = False
+    necro_defeated = False
     battle = False
     done = False
 
