@@ -495,6 +495,7 @@ def main():
                             dragon_defeated = True
                         battle = False
                     else:
+                        # Enemy Movement
                         if distance > 1:
                             if distance >= 3:
                                 enemy_move = random.randrange(0, 2)
@@ -528,6 +529,9 @@ def main():
                                 player_class.class_hp -= dmg_received
                                 print('You received', dmg_received, 'damage.')
                                 guard = 1
+                                if current_enemy == dragon:
+                                    print('The dragon\'s fire siphons your mana.')
+                                    player_class.mana -= 5
                                 action = False
                             else:
                                 if enemy_action != 1:
@@ -537,5 +541,8 @@ def main():
                                     player_class.class_hp -= dmg_received
                                     print('You received', dmg_received, 'damage.')
                                     guard = 1
+                                    if current_enemy == dragon:
+                                        print('The dragon\'s claws sunder your defenses.')
+                                        guard = 0.5
                                     action = False
 main()
