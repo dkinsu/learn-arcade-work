@@ -218,7 +218,7 @@ def main():
                     print('No items are present.')
 
             elif 'status' in command_words:
-                print('You have', player_class.class_hp, 'health and ', player_class.mana, 'mana.'
+                print('You have', player_class.class_hp, 'health and', player_class.mana, 'mana.'
                       ' Your attack stat is', player_class.class_attack, '.')
 
             elif command_words[0] == 'i':
@@ -418,7 +418,7 @@ def main():
                                 player_class.class_attack *= 3
                                 if player_class.class_attack < 30:
                                     print('Your mana amplifies your power. That\'s more like it.')
-                                elif player_class.class_attack > 30:
+                                elif player_class.class_attack > 30 and player_class.class_attack < 100:
                                     print('Your strength is overflowing.')
                                 elif player_class.class_attack > 100:
                                     print('This is excessive.')
