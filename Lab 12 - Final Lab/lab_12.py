@@ -58,7 +58,7 @@ def main():
 
     cube = lab_12_combatants.Enemy('A BIG CUBE.', 'THE CUBE', 80, 'CUBIC CONTACT', 7,
                                    'CUBE HYPER STRIKE', 14, 'YOU ARE NO MATCH FOR THE CUBE.')
-    long_swordsman = lab_12_combatants.Enemy('A warrior renowned for his height... '
+    green_swordsman = lab_12_combatants.Enemy('A warrior renowned for his height... '
                                              'though the size of his limbs is rather lacking.',
                                               'The Long Warrior', 120, 'Straight punch', 12, '90-degree headbutt', 18,
                                               'A shame. They could not match up to my height.')
@@ -153,7 +153,7 @@ def main():
             cube_fight_player = cube_fight.play(0.5, 0, True)
         # Battle 2 - Long warrior
         elif lab_12_rooms.current_room == 13 and not long_defeated:
-            current_enemy = long_swordsman
+            current_enemy = green_swordsman
             battle = True
             exploration_player.pause()
             long_fight_player = long_fight.play(0.5, 0, True)
@@ -577,7 +577,7 @@ def main():
                             cube_defeated = True
                             arcade.stop_sound(cube_fight_player)
                             exploration_player.play()
-                        elif current_enemy == long_swordsman:
+                        elif current_enemy == green_swordsman:
                             long_defeated = True
                             arcade.stop_sound(long_fight_player)
                             exploration_player.play()
