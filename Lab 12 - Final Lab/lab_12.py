@@ -642,6 +642,8 @@ def main():
                                 if current_enemy == dragon:
                                     print('The dragon\'s fire siphons your mana.')
                                     player_class.mana -= 5
+                                    if player_class.mana < 0:
+                                        player_class.mana = 0
                                 action = False
                             else:
                                 if enemy_action != 1:
