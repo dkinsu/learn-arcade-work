@@ -1,7 +1,6 @@
 import random
 import arcade
-
-# import lab_12_sounds
+import lab_12_models
 import lab_12_rooms
 import lab_12_items
 import lab_12_combatants
@@ -151,24 +150,28 @@ def main():
             battle = True
             exploration_player.pause()
             cube_fight_player = cube_fight.play(0.5, 0, True)
-        # Battle 2 - Long warrior
+            lab_12_models.cube_draw()
+        # Battle 2 - Green warrior
         elif lab_12_rooms.current_room == 13 and not long_defeated:
             current_enemy = green_swordsman
             battle = True
             exploration_player.pause()
             long_fight_player = long_fight.play(0.5, 0, True)
+            lab_12_models.green_draw()
         # Battle 3 - Dragon
         elif lab_12_rooms.current_room == 15 and not dragon_defeated:
             current_enemy = dragon
             battle = True
             exploration_player.pause()
             dragon_fight_player = dragon_fight.play(0.5, 0, True)
+            lab_12_models.dragon_draw()
         # Final Battle - Fiend
         elif lab_12_rooms.current_room == 16 and dragon_defeated and not fiend_defeated:
             current_enemy = fiend
             battle = True
             exploration_player.pause()
             fiend_fight_player = fiend_fight.play(0.5, 0, True)
+            lab_12_models.fiend_draw()
 
         if not battle:
             print('\n', lab_12_rooms.room_list[lab_12_rooms.current_room].description)
@@ -589,6 +592,7 @@ def main():
                             fiend_defeated = True
                             arcade.stop_sound(fiend_fight_player)
                             print('\n', player_class.class_name, ': \"May those who were sacrificed rest in peace.')
+                        arcade.close_window()
                         battle = False
                     else:
                         # Enemy Movement
