@@ -38,29 +38,31 @@ def main():
                                             "Wizard", 40, 40, 5, 60, 60, "Amplify", "Flare", 4,
                                             'Triples your attack power for the duration of the battle. '
                                             'Can be used multiple times. Costs 40 mana.',
-                                            'Cause a fiery explosion. High damage. Costs 20 mana.')
+                                            'Cause a fiery explosion. High damage. Costs 20 mana.',
+                                           'On battle victory, heals 5 HP and gains 5 max HP and 10 max mana.')
 
     warrior = lab_12_combatants.PlayerClass("A class that fights with heavy close ranged weapons."
                                             "\nClose-ranged offense, strong defense.",
                                             "Warrior", 60, 60, 8, 30, 30, "Invigorating Cleave", "Guard", 2,
                                             'A long-reaching powerful swing. Deals extra damage proportional to '
                                             'warrior\'s missing HP, and returns 33% of warrior\'s missing HP. Costs 15 mana.',
-                                            'Heavily reduces incoming damage. Requires 10 mana to use, but restores 10 mana.')
+                                            'Heavily reduces incoming damage. Requires 10 mana to use, but restores 10 mana.',
+                                            'On battle victory, increases max HP by 10, heals for 66% of missing HP, and gains 1 attack.')
 
     rogue = lab_12_combatants.PlayerClass("A class that fights with melee and ranged weapons."
                                           "\nVersatile offense, middling defense.",
                                             'Rogue', 50, 50, 10, 45, 45, "Lacerate", "Retreating Shot", 1,
                                             'A devastating close-ranged attack. Poor range,'
-                                            ' heavy damage. Halves the damage the next enemy attack. Costs 15 mana.',
+                                            ' heavy damage. Halves the damage of the next enemy attack. Costs 15 mana.',
                                             'Fire a shot with a bow before performing evasive maneuvers. '
-                                            'Creates distance. Costs 25 mana.')
+                                            'Creates distance. Costs 25 mana.',
+                                          'On battle victory, gains 15 max mana and 3 attack.')
 
     cube = lab_12_combatants.Enemy('A BIG CUBE.', 'THE CUBE', 80, 'CUBIC CONTACT', 7,
                                    'CUBE HYPER STRIKE', 14, 'YOU ARE NO MATCH FOR THE CUBE.')
-    green_swordsman = lab_12_combatants.Enemy('A warrior renowned for his height... '
-                                             'though the size of his limbs is rather lacking.',
-                                              'The Long Warrior', 120, 'Straight punch', 12, '90-degree headbutt', 18,
-                                              'A shame. They could not match up to my height.')
+    green_swordsman = lab_12_combatants.Enemy('A warrior renowned for his... green-ness. ',
+                                              'The Green Warrior', 120, 'Straight punch', 12, 'Green Headbutt', 18,
+                                              'A shame. They could not match up to my GREEN.')
     dragon = lab_12_combatants.Enemy('The guardian of the village. Something is controlling the dragon\'s behavior.', 'The Dragon',
                                      250, 'Flame Breath', 12, 'Wrathful Claw', 25, 'You were mighty... But not mighty enough.')
     fiend = lab_12_combatants.Enemy('The being terrorizing the village.\nIt has been empowered by defeated heroes.',
@@ -130,7 +132,7 @@ def main():
             elif player_class == rogue:
                 print('\n', player_class.class_name, ': \"Fool. Show me the way. I will protect the village properly.')
             else:
-                print('\n', player_class.class_name,': \"You were deceived. You aren\'t sacrificing heroes to protect the people, it\'s just making'
+                print('\n', player_class.class_name,': \"You were deceived. You aren\'t sacrificing heroes to protect the people, it\'s just making '
                                             'that demon stronger. \nYou\'ve forsaken both the lives of those who fight to protect you, '
                                             'and the people of the village. Now, show me the way, so I can correct your mistakes.')
             print('\nMayor: \"It inhabits the graveyard to the north. Good luck...')
@@ -179,7 +181,7 @@ def main():
             for item in item_list:
                 if item.room_number == lab_12_rooms.current_room:
                     print(item.i_description)
-            command_words = input("What is your command? ").lower().split(" ")
+            command_words = input("What is your command? (n, e, s, w, d, u, i, get, use, drop, status) ").lower().split(" ")
 
             if command_words[0] == 'n':
                 lab_12_rooms.next_room = lab_12_rooms.room_list[lab_12_rooms.current_room].north
@@ -202,7 +204,7 @@ def main():
             elif command_words[0] == 'c':
                 print('N, E, S, W, for cardinal directions, '
                       'D, U, for down and up,\nI for inventory, '
-                      'get to retrieve items, drop to drop items, and u to use items.'
+                      'get to retrieve items, drop to drop items, and use to use items.'
                       'status for character status.\nQ to quit.')
 
             elif 'get' in command_words:
@@ -305,7 +307,7 @@ def main():
                 action = False
                 print('You are challenged by', current_enemy.monster_name, '!')
                 print('Combat commands: B: Basic attack, 1: Skill 1, 2: Skill 2, advance, retreat, wait, status')
-                print('Input controls to show commands.')
+                print('Input \"controls\" to show commands, and \"skills\" for class skill info.')
                 while current_enemy.monster_hp > 0:
                     if player_class.class_hp <= 0:
                         print(current_enemy.m_taunt, '\n You were defeated. Game over.')
@@ -384,6 +386,10 @@ def main():
                                     'Your enemy is', current_enemy.monster_name, '.\n', current_enemy.monster_description)
                         elif 'controls' in command_words:
                             print('Combat commands: B: Basic attack, 1: Skill 1, 2: Skill 2, advance, retreat, wait')
+                        elif 'skills' in command_words:
+                            print('Skill 1:', player_class.p_skill1, ':', player_class.p_skill1desc,
+                                  '\nSkill 2:', player_class.p_skill2, ':', player_class.p_skill2desc,
+                                  '\nPassive:', player_class.passive)
 
                         elif 'retreat' in command_words:
                             retreat_roll = random.randrange(0, 7)
@@ -567,15 +573,17 @@ def main():
                                 wizard.class_attack += 3
                             if blessing.room_number == OOP:
                                 wizard.class_attack += 2
-                            # Warrior regains 66% of missing HP on victory and gains more max HP
+                            # Warrior regains 66% of missing HP on victory and gains more max HP, gains slight attack boost as well
                         elif player_class == warrior:
                             warrior.mana = warrior.max_mana
                             warrior.class_max_hp += 10
                             warrior.class_hp = warrior.class_hp + ((warrior.class_max_hp - warrior.class_hp) // 1.5)
+                            warrior.class_attack += 1
                         else:
-                            # Rogue gets more max mana on victory
+                            # Rogue gets more attack and max mana on victory
                             rogue.max_mana += 15
                             rogue.mana = rogue.max_mana
+                            rogue.class_attack += 3
                         if current_enemy == cube:
                             cube_defeated = True
                             arcade.stop_sound(cube_fight_player)
@@ -592,7 +600,6 @@ def main():
                             fiend_defeated = True
                             arcade.stop_sound(fiend_fight_player)
                             print('\n', player_class.class_name, ': \"May those who were sacrificed rest in peace.')
-                        arcade.close_window()
                         battle = False
                     else:
                         # Enemy Movement

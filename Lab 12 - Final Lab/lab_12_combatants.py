@@ -4,7 +4,7 @@ import random
 class PlayerClass:
     def __init__(self, player_description, class_name, class_hp, class_max_hp,
                  class_attack, mana, max_mana, p_skill1, p_skill2, p_range,
-                 p_skill1_desc, p_skill2_desc):
+                 p_skill1_desc, p_skill2_desc, passive):
         self.player_description = player_description
         self.class_name = class_name
         self.class_hp = class_hp
@@ -17,6 +17,7 @@ class PlayerClass:
         self.p_range = p_range
         self.p_skill1desc = p_skill1_desc
         self.p_skill2desc = p_skill2_desc
+        self.passive = passive
 
 
 class Enemy:
