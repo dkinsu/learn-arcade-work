@@ -1,7 +1,11 @@
 import arcade
+# minecraft iron block
 cube_pic = arcade.load_texture('iron_block.jpg')
+# minecraft zombie
 green_pic = arcade.load_texture('green.jpg')
+# minecraft ender dragon
 dragon_pic = arcade.load_texture('dragon.jpg')
+# minecraft wither
 fiend_pic = arcade.load_texture('fiend.png')
 def cube_draw():
     arcade.open_window(600, 600, 'CUBE')

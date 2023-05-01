@@ -52,7 +52,7 @@ def main():
     rogue = lab_12_combatants.PlayerClass("A class that fights with melee and ranged weapons."
                                           "\nVersatile offense, middling defense.",
                                             'Rogue', 50, 50, 10, 45, 45, "Lacerate", "Retreating Shot", 1,
-                                            'A devastating close-ranged attack. Poor range (1),'
+                                            'A devastating close-ranged attack. Incredible range (3), but leaves you close to the enemy.\n'
                                             ' heavy damage. Halves the damage of the next enemy attack. Costs 15 mana.',
                                             'Fire a shot with a bow before performing evasive maneuvers. '
                                             'Creates distance (2). 3 range. Costs 25 mana.',
@@ -462,7 +462,7 @@ def main():
 
                                     # Rogue skill 1
                             else:
-                                if distance == 1 and player_class.mana >= 15:
+                                if distance < 4 and player_class.mana >= 15:
                                     print('They won\'t be prepared for this.')
                                     damage = player_class.class_attack * 4
                                     current_enemy.monster_hp -= damage
@@ -475,8 +475,9 @@ def main():
                                     guard = 2
                                     player_class.mana -= 15
                                     print(player_class.mana, 'mana remains.')
+                                    distance = 1
                                     action = True
-                                elif distance > 1 and player_class.mana >= 15:
+                                elif distance >= 4 and player_class.mana >= 15:
                                     print('They won\'t be prepared for this... But neither were you. You missed.')
                                     print('You have dealt 0 damage.',
                                           ' You have', player_class.class_hp, 'HP remaining. The enemy has',
@@ -484,6 +485,7 @@ def main():
                                           'HP remaining.')
                                     player_class.mana -= 15
                                     print(player_class.mana, 'mana remains.')
+                                    distance = 2
                                     action = True
                                 elif player_class.mana < 15:
                                     print('You don\'t have enough mana.')
