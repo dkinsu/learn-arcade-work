@@ -38,13 +38,13 @@ def main():
                                             "Wizard", 40, 40, 5, 60, 60, "Amplify", "Flare", 4,
                                             'Triples your attack power for the duration of the battle. '
                                             'Can be used multiple times. Costs 40 mana.',
-                                            'Cause a fiery explosion. High damage. Costs 20 mana.',
+                                            'Cause a fiery explosion. High damage. 4 range. Costs 20 mana.',
                                            'On battle victory, heals 5 HP and gains 5 max HP and 10 max mana.')
 
     warrior = lab_12_combatants.PlayerClass("A class that fights with heavy close ranged weapons."
                                             "\nClose-ranged offense, strong defense.",
                                             "Warrior", 60, 60, 8, 30, 30, "Invigorating Cleave", "Guard", 2,
-                                            'A long-reaching powerful swing. Deals extra damage proportional to '
+                                            'A long-reaching (2) powerful swing. Deals extra damage proportional to '
                                             'warrior\'s missing HP, and returns 33% of warrior\'s missing HP. Costs 15 mana.',
                                             'Heavily reduces incoming damage. Requires 10 mana to use, but restores 10 mana.',
                                             'On battle victory, increases max HP by 10, heals for 66% of missing HP, and gains 1 attack.')
@@ -52,10 +52,10 @@ def main():
     rogue = lab_12_combatants.PlayerClass("A class that fights with melee and ranged weapons."
                                           "\nVersatile offense, middling defense.",
                                             'Rogue', 50, 50, 10, 45, 45, "Lacerate", "Retreating Shot", 1,
-                                            'A devastating close-ranged attack. Poor range,'
+                                            'A devastating close-ranged attack. Poor range (1),'
                                             ' heavy damage. Halves the damage of the next enemy attack. Costs 15 mana.',
                                             'Fire a shot with a bow before performing evasive maneuvers. '
-                                            'Creates distance. Costs 25 mana.',
+                                            'Creates distance (2). 3 range. Costs 25 mana.',
                                           'On battle victory, gains 15 max mana and 3 attack.')
 
     cube = lab_12_combatants.Enemy('A BIG CUBE.', 'THE CUBE', 80, 'CUBIC CONTACT', 7,
@@ -132,7 +132,7 @@ def main():
             elif player_class == rogue:
                 print('\n', player_class.class_name, ': \"Fool. Show me the way. I will protect the village properly.')
             else:
-                print('\n', player_class.class_name,': \"You were deceived. You aren\'t sacrificing heroes to protect the people, it\'s just making '
+                print('\n', player_class.class_name, ': \"You were deceived. You aren\'t sacrificing heroes to protect the people, it\'s just making '
                                             'that demon stronger. \nYou\'ve forsaken both the lives of those who fight to protect you, '
                                             'and the people of the village. Now, show me the way, so I can correct your mistakes.')
             print('\nMayor: \"It inhabits the graveyard to the north. Good luck...')
@@ -286,7 +286,6 @@ def main():
                 print("Game over.")
                 done = True
 
-
             else:
                 print("Please give a valid command.")
                 continue
@@ -300,7 +299,7 @@ def main():
             lab_12_rooms.current_room = lab_12_rooms.next_room
 
             # ///////////////////////////////////////////////////// Battle /////////////////////////////////////////////////////
-        elif battle == True:
+        elif battle:
             while current_enemy.monster_hp > 0 and player_class.class_hp > 0:
                 guard = 1
                 distance = 4
@@ -381,7 +380,7 @@ def main():
                                       ' Your HP is', player_class.class_hp, '.')
                                 action = True
                         elif 'status' in command_words:
-                            print('You have', player_class.class_hp, 'HP and', player_class.mana, 'Mana. '
+                            print('You have', player_class.class_hp, 'HP,', player_class.class_attack, 'attack, and', player_class.mana, 'Mana. '
                                     'The enemy has', current_enemy.monster_hp, 'HP. You are', distance, 'meters from the enemy. '
                                     'Your enemy is', current_enemy.monster_name, '.\n', current_enemy.monster_description)
                         elif 'controls' in command_words:
