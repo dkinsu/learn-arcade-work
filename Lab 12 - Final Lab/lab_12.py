@@ -100,7 +100,7 @@ def main():
 
     print("\nYou have awoken from what feels like years of sleep. You are currently in a mansion."
           "\nIt would be wise to seek out someone who knows why.\nInput C for controls.")
-    # arcade.play_sound(exploration, 0.6, 0, True, 1)
+
     item_list = lab_12_items.populate_items()
     while not done:
         # One time dialogue
@@ -212,7 +212,7 @@ def main():
                 for item in item_list:
                     if item.room_number == lab_12_rooms.current_room:
                         item.room_number = INV
-                        print('You retrieved the ', item.i_name, '.')
+                        print('\nYou retrieved the ', item.i_name, '.')
                         found = True
                 if not found:
                     print('No items are present.')
@@ -245,25 +245,24 @@ def main():
                     if item_list[i].room_number == INV:
                         if use == item_list[i].i_name:
                             if use == 'mirror':
-                                print('You look dashing.')
+                                print('\nYou look dashing.')
 
                             elif use == 'key':
                                 if lab_12_rooms.current_room == 12:
-                                    print('The chest was opened, but the key broke in the process.')
+                                    print('\nThe chest was opened, but the key broke in the process.')
                                     key = get_item(item_list, 'key')
-                                    # item_list[i].room_number = OOP
                                     key.room_number = OOP
                                     charm = get_item(item_list, 'charm')
                                     charm.room_number = 12
 
                             elif use == 'charm':
-                                print('The charm is absorbed into your weapon. You\'ve gotten stronger.')
+                                print('\nThe charm is absorbed into your weapon. You\'ve gotten stronger.')
                                 player_class.class_attack += 3
                                 charm = get_item(item_list, 'charm')
                                 charm.room_number = OOP
 
                             elif use == 'elixir':
-                                print('You\'ve been fully healed.')
+                                print('\nYou\'ve been fully healed.')
                                 player_class.class_hp = player_class.class_max_hp
                                 elixir = get_item(item_list, 'elixir')
                                 elixir.room_number = OOP
@@ -271,14 +270,14 @@ def main():
                             elif use == 'talisman':
                                 player_class.class_max_hp += 5
                                 player_class.class_hp = player_class.class_max_hp
-                                print('You\'ve been fully healed, and your max HP increased. Max HP is now', player_class.class_max_hp, '.')
+                                print('\nYou\'ve been fully healed, and your max HP increased. Max HP is now', player_class.class_max_hp, '.')
                                 talisman = get_item(item_list, 'talisman')
                                 talisman.room_number = OOP
                             elif use == 'blessing':
                                 player_class.class_max_hp += 5
                                 player_class.class_attack += 2
                                 player_class.max_mana += 5
-                                print('The dragon\'s blessing empowers you. All stats have increased.')
+                                print('\nThe dragon\'s blessing empowers you. All stats have increased.')
                                 blessing = get_item(item_list, 'blessing')
                                 blessing.room_number = OOP
 
@@ -318,9 +317,9 @@ def main():
                         break
 
                     print(current_enemy.monster_name, 'is ', distance, 'meters away.')
-                    # command_words = input("What is your command? ").lower().split(" ")
                     while not action:
                         command_words = input("What is your command? ").lower().split(" ")
+                        # Basic attack
                         if command_words[0] == 'b' and player_class.p_range >= distance:
                             damage = player_class.class_attack
                             current_enemy.monster_hp -= damage
