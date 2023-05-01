@@ -240,9 +240,11 @@ def main():
 
             elif 'use' in command_words:
                 use = input("What would you like to use? ").lower()
-
                 for i in range(len(item_list)):
-                    if item_list[i].room_number == INV:
+                    if item_list[i].room_number != INV:
+                        if use == item_list[i].i_name:
+                            print('\nYou do not have that item.')
+                    elif item_list[i].room_number == INV:
                         if use == item_list[i].i_name:
                             if use == 'mirror':
                                 print('\nYou look dashing.')
@@ -254,6 +256,8 @@ def main():
                                     key.room_number = OOP
                                     charm = get_item(item_list, 'charm')
                                     charm.room_number = 12
+                                else:
+                                    print('\nThat isn\'t the right place to use this.')
 
                             elif use == 'charm':
                                 print('\nThe charm is absorbed into your weapon. You\'ve gotten stronger.')
@@ -273,6 +277,7 @@ def main():
                                 print('\nYou\'ve been fully healed, and your max HP increased. Max HP is now', player_class.class_max_hp, '.')
                                 talisman = get_item(item_list, 'talisman')
                                 talisman.room_number = OOP
+
                             elif use == 'blessing':
                                 player_class.class_max_hp += 5
                                 player_class.class_attack += 2
